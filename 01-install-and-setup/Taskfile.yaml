@@ -1,0 +1,27 @@
+version: '3'
+
+env:
+  CLUSTER_NAME: dg-eks-cluster
+  AWS_REGION: ap-northeast-2
+  AWS_PROFILE: default
+  
+tasks:
+  kind:01-generate-config:
+    cmds:
+      - REPLACE_WITH_ABSOLUTE_PATH=${PWD} envsubst < kind-config.yaml.TEMPLATE > kind-config.yaml
+    desc: "config 파일 생성"
+
+  kind:02-create-cluster:
+    cmds:
+      - kind create cluster --config kind-config.yaml
+    desc: "클러스터 생성"
+  
+  aws:00-authenticate-cli:
+    cmds:
+      - aws configure
+    dsec: "AWS CLI 인증"
+  
+  aws:01-create-eks-cluster:
+    cmds:
+      - eksctl create cluster --name ${CLUSTER_NAME} --nodegroup-name dg-eks --nodes=2 --node-type=t2.medium --region=${AWS_REGION} --profile=${AWS_PROFILE}
+    desc: "EKS 클러스터 생성"
