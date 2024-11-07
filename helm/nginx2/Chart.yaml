@@ -1,0 +1,13 @@
+# Chart.yaml 예시
+apiVersion: v2  # Helm 차트의 API 버전 (주로 v2 사용)
+name: nginx-chart  # 차트 이름
+description: A Helm chart for deploying Nginx  # 차트에 대한 설명
+type: application  # 차트 유형 (application은 애플리케이션 배포용)
+
+version: 1.0.0  # 차트의 버전
+appVersion: "1.21.0"  # 배포될 애플리케이션(Nginx)의 버전
+
+# (옵션) 차트 유지보수자 정보
+maintainers:
+  - name: daegwan  # 유지보수자 이름
+    email: daegwanou@gmail.com  # 유지보수자 이메일

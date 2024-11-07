@@ -1,0 +1,27 @@
+replicaCount: 3
+
+appLabels: # deployment 파드
+  app: front
+  name: front-deployment
+
+service: # svc 파드
+  name: front-service
+  namespace: front
+  type: LoadBalancer
+  ports:
+    - name: http-client
+      port: 3001
+      targetPort: 3001
+    - name: http-admin
+      port: 3002
+      targetPort: 3002
+    
+image:
+  repository: daegwan/multi-front # 도커 이미지 이름
+  tag: latest
+  pullPolicy: Always
+
+
+
+
+

@@ -4,3 +4,43 @@ includes:
   setup:
     taskfile: ./01-install-and-setup/Taskfile.yaml
     dir: ./01-install-and-setup
+    taskfile: ./02-built-in-resource-type/ConfigMap/Taskfile.yaml
+  resources2:
+    taskfile: ./02-built-in-resource-type/CronJob/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources3:
+    taskfile: ./02-built-in-resource-type/DaemonSet/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources4:
+    taskfile: ./02-built-in-resource-type/Deployment/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources5:
+    taskfile: ./02-built-in-resource-type/GatewayAPI/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources6:
+    taskfile: ./02-built-in-resource-type/Ingress/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources7:
+    taskfile: ./02-built-in-resource-type/Job/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources8:
+    taskfile: ./02-built-in-resource-type/Namespace/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources9:
+    taskfile: ./02-built-in-resource-type/PersistentVolume/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources10:
+    taskfile: ./02-built-in-resource-type/Pod/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources11:
+    taskfile: ./02-built-in-resource-type/RBAC/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources12:
+    taskfile: ./02-built-in-resource-type/Secret/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources13:
+    taskfile: ./02-built-in-resource-type/Service/Taskfile.yaml
+    dir: ./02-built-in-resource-type
+  resources14:
+    taskfile: ./02-built-in-resource-type/StatefulSet/Taskfile.yaml
+    dir: ./02-built-in-resource-type

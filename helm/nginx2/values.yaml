@@ -1,0 +1,41 @@
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+
+appLabels:
+  app: front
+  name: nginx-deployment
+
+
+service:
+  name: front-service
+  namespace: ns-nginx
+  type: NodePort
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+
+# ingress:
+#   enabled: true
+#   host: nginx.example.com
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+
+# configMap:
+#   NGINX_CONFIG_VALUE: "default config value"
+#   custom.conf: |
+#     server {
+#       listen 80;
+#       server_name nginx.example.com;
+#       location / {
+#         root /usr/share/nginx/html;
+#         index index.html;
+#       }
+#     }
+
+# secret:
+#   username: YWRtaW4=  # "admin"의 base64 인코딩 값
+#   password: cGFzc3dvcmQ=  # "password"의 base64 인코딩 값

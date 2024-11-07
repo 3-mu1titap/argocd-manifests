@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: adaptor-tls
+  namespace: nginx-ingress
+spec:
+  secretName: adaptor-tls  # 이 Secret에 인증서가 저장됨
+  issuerRef:
+    name: issuer
+    kind: ClusterIssuer
+  commonName: www.adaptors.site  # 요청할 도메인 이름
+  dnsNames:
+    - www.adaptors.site
+    - adaptors.site  

@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: argocd-tls
+  namespace: nginx-ingress
+spec:
+  secretName: argocd-tls  # 이 Secret에 인증서가 저장됨
+  issuerRef:
+    name: letsencrypt-prod  # 사용할 ClusterIssuer의 이름
+    kind: ClusterIssuer
+  commonName: your-argocd-domain.com  # 요청할 도메인 이름
+  dnsNames:
+  - your-argocd-domain.com

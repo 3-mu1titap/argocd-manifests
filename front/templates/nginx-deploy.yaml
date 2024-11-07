@@ -1,0 +1,29 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: {{ .Values.appLabels.name }}
+#   namespace: {{ .Values.service.namespace }}
+#   labels:
+#     app: {{ .Values.appLabels.app }}
+# spec:
+#   replicas: {{ .Values.replicaCount }}
+#   selector:
+#     matchLabels:
+#       app: {{ .Values.appLabels.app }}
+#   template:
+#     metadata:
+#       labels:
+#         app: {{ .Values.appLabels.app }}
+#     spec:
+#       containers:
+#         - name: nginx
+#           image: bitnami/nginx:latest
+#           ports:
+#         - containerPort: 80  # Service의 targetPort를 사용
+#         - name: nginx-additional
+#           image: bitnami/nginx:latest
+#           ports:
+#       volumes:
+#         - name: nginx-config-volume
+#           configMap:
+#             name: nginx-config  # 생성한 ConfigMap의 이름

@@ -1,0 +1,18 @@
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: {{ .Values.appLabels.name }}
+#   namespace: {{ .Values.service.namespace }}
+#   labels:
+#     app: {{ .Values.appLabels.app }}
+# data:
+#   nginx.conf: |
+#     server {
+#         listen 80;
+
+#         location / {
+#             root /usr/share/nginx/html;
+#             index index.html index.htm;
+#             try_files $uri $uri/ /index.html;
+#         }
+#     }
