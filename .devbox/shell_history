@@ -778,3 +778,10 @@ helm install traefik traefik/traefik --set global.enable.api=true
 : 1730966322:0;git init
 : 1730966332:0;git commit -m "íƒ´ƒ¤ëƒƒ€íƒª¸ ìƒ¨ƒ¸ëƒ¯ƒ¹ ë°°íƒ¯¬"
 : 1730966340:0;git add .
+: 1730966347:0;git commit -m "íƒ´ƒ¤ëƒƒ€íƒª¸ ìƒ¨ƒ¸ëƒ¯ƒ¹ ë°°íƒ¯¬"
+: 1730966367:0;git remote add origin https://github.com/mu1titap/argocd-manifests.git
+: 1730966372:0;git push origin main
+: 1730966551:0;git remote remove origin  # originìƒ½€ ìƒ»ƒ°ê²© ìƒ€€ìƒ¾¥ìƒ¦ƒ¬ìƒ½ƒ¸ ìƒ½´ë¦ƒ¤ìƒ¾ƒ¥ëƒ«ƒ¨ëƒ«¤
+: 1730966557:0;git remote -v
+: 1730967193:0;git init 
+: 1730967202:0;git add .
