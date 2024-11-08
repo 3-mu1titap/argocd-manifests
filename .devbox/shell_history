@@ -785,3 +785,108 @@ helm install traefik traefik/traefik --set global.enable.api=true
 : 1730966557:0;git remote -v
 : 1730967193:0;git init 
 : 1730967202:0;git add .
+: 1730967222:0;git commit -m "ÌÉ¥É§ÎÉÅÉÄÌÉ™∏ ÏÉ®É∏ÎÉØÉπ Î∞∞ÌÉØ¨ & ignore"
+: 1730967260:0;git branch -M main
+: 1730967265:0;git remote add origin https://github.com/mu1titap/argocd-manifests.git
+: 1730967271:0;git push origin main
+: 1730967853:0;git rm --cached Taskfile.yaml\
+git rm --cached aws-auth.yaml
+: 1730967876:0;gir rm --cached 01-install-and-setup
+: 1730967886:0;git rm --cached 01-install-and-setup
+: 1730967895:0;git rm --cached 01-install-and-setup/
+: 1730967919:0;git rm --cached -r 01-install-and-setup/
+: 1730967936:0;git rm --cached -r 02-built-in-resources-type
+: 1730967947:0;git rm --cached -r 02-built-in-resource-type
+: 1730967962:0;git rm --cached -r 05-helm
+: 1730967977:0;git rm --cached -r 06-demo-application
+: 1730967994:0;git rm --cached -r 07-deploying-demo-application
+: 1730968010:0;git rm --cached -r 14-cicd
+: 1730968031:0;git commit -m "ÌÉ¥É§ÎÉÅÉÄÌÉ™∏ ÏÉ®É∏ÎÉØÉπ Î∞∞ÌÉØ¨ & git ignore"
+: 1730968078:0;git reomte -v
+: 1730968081:0;git reomte --v
+: 1730968086:0;git remote -v
+: 1730968129:0;git remote remove origin
+: 1730968133:0;git remote -v
+: 1730968139:0;git rm aws-auth.yaml
+: 1730968162:0;git rm --cached Taskfile.yaml\
+git rm --cached aws-auth.yaml
+: 1730968178:0;git rm --cached aws-auth.yaml
+: 1730968182:0;git add .
+: 1730968191:0;git remote -v
+: 1730968217:0;git remote add origin https://github.com/mu1titap/argocd-manifests.git
+: 1730968220:0;git push origin main
+: 1730969405:0;k get pods -A
+: 1731028291:0;clear
+: 1731029813:0;k edit svc argocd-server -n argocd
+: 1731030108:0;k get svc -n ns-nginx
+: 1731030164:0;k edit svc argocd-server -n argocd
+: 1731030305:0;k get svc -n ns-nginx
+: 1731030308:0;k edit svc argocd-server -n argocd
+: 1731030323:0;k get svc -n argocd
+: 1731030357:0;k get pods -A
+: 1731030371:0;k describe argocd-server-77469d5b7c-8t6zc -n argocd
+: 1731030394:0;k describe pod argocd-server-77469d5b7c-8t6zc -n argocd
+: 1731030511:0;clear
+: 1731030518:0;k get svc -n argocd
+: 1731033659:0;docker imgaes
+: 1731033662:0;docker images
+: 1731033701:0;docker rmi bef1bfafc5ee
+: 1731034091:0;k get svc -n front
+: 1731034124:0;k get pods -A
+: 1731034135:0;k delete namespace front
+: 1731034200:0;k get svc -n front
+: 1731034211:0;helm install front-app front/ -f front/values.yaml --namespace front
+: 1731034220:0;k create namespace front
+: 1731034225:0;helm install front-app front/ -f front/values.yaml --namespace front
+: 1731034236:0;k get svc -n front
+: 1731038243:0;k get pods -A
+: 1731038255:0;k descirbe pod front-deployment-7798d54cfb-lgrpg -n front
+: 1731038267:0;k describe pod front-deployment-7798d54cfb-lgrpg -n front
+: 1731038336:0;k get svc -n front
+: 1731039044:0;docker ps 
+: 1731039065:0;docker ps -A
+: 1731039068:0;docker ps -a
+: 1731039287:0;docker imgaes
+: 1731039293:0;docker images
+: 1731039326:0;k get svc -n
+: 1731039330:0;k get svc -n front
+: 1731039362:0;npm run build
+: 1731039370:0;cd front
+: 1731039374:0;npm run build
+: 1731039386:0;npm run dev
+: 1731039389:0;ls
+: 1731039547:0;k get pods -A
+: 1731039594:0;k get pods -n front
+: 1731039602:0;k get svc -n front
+: 1731040355:0;dokcer images
+: 1731040358:0;docker images
+: 1731040392:0;docker images prune
+: 1731040398:0;docker image prune
+: 1731040402:0;docker images
+: 1731040537:0;cd templates
+: 1731040547:0;k apply -f deployment.yaml
+: 1731040824:0;cd ..
+: 1731040835:0;helm upgrade front-app .
+: 1731040855:0;helm list
+: 1731040859:0;k get pods -A
+: 1731040869:0;k get svc -n front
+: 1731041240:0;helm upgrade front-app front/ -f values.yaml
+: 1731041968:0;helm upgrade front-app front/ -f front/values.yaml
+: 1731042029:0;helm list -n front
+: 1731042112:0;helm upgrade front-app front/ -f front/values.yaml --namespace front
+: 1731042137:0;k get svc -n front
+: 1731043489:0;helm lint front ./ -f values.yaml
+: 1731043498:0;helm lint front / -f values.yaml
+: 1731043511:0;helm lint front/ -f front/values.yaml
+: 1731047573:0;helm upgrade front-app front/ -f front/values.yaml --namespace front
+: 1731047580:0;k get svc -n front
+: 1731047586:0;k get pods -n front
+: 1731048062:0;k get svc -n front
+: 1731048141:0;k describe pod front-deployment-7fddf8b8df-htbk7 -n front
+: 1731048191:0;docker images
+: 1731048268:0;helm upgrade front-app front/ -f front/values.yaml --namespace front
+: 1731048299:0;k get svc -n front
+: 1731048304:0;k get pods -n front
+: 1731049298:0;helm upgrade front-app front/ -f front/values.yaml --namespace front
+: 1731049306:0;k get pods -n front
+: 1731049342:0;k describe pod front-deployment-59688dd484-m9xg9 -n front

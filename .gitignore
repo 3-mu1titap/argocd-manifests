@@ -4,7 +4,7 @@
 aws-auth.yaml
 
 01-install-and-setup/
-02-built-in-resources-type/
+02-built-in-resource-type/
 05-helm/
 06-demo-application/
 07-deploying-demo-application/

@@ -15,9 +15,12 @@ service: # svc 파드
     - name: http-admin
       port: 3002
       targetPort: 3002
+    - name: http-web
+      port: 3003
+      targetPort: 3003
     
 image:
-  repository: daegwan/multi-front # 도커 이미지 이름
+  repository: daegwan/multi-front2 # 도커 이미지 이름
   tag: latest
   pullPolicy: Always
 
