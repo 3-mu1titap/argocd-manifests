@@ -18,6 +18,7 @@ service: # svc 파드
     - name: http-web
       port: 3003
       targetPort: 3003
+      
     
 image:
   repository: daegwan/multi-front2 # 도커 이미지 이름

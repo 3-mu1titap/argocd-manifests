@@ -1,1 +1,0 @@
-/Users/daegwan/Desktop/dgkube/.devbox/virtenv/python312/bin/venvShellHook.sh
