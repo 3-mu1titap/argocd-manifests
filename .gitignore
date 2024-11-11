@@ -9,9 +9,4 @@ aws-auth.yaml
 06-demo-application/
 07-deploying-demo-application/
 14-cicd/
-.devbox/**/*
-.venv/**/*
-.bin/**/*
-devbox.json
-devbox.lock
 #

@@ -12,5 +12,4 @@ aws-auth.yaml
 .devbox/**/*
 .venv/**/*
 .bin/**/*
-**/devbox.json
-**/devbox.lock
+
