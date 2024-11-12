@@ -21,7 +21,7 @@ service: # svc 파드
       
     
 image:
-  repository: daegwan/multi-front2 # 도커 이미지 이름
+  repository: daegwan/mult # 도커 이미지 이름
   tag: latest
   pullPolicy: Always
 
