@@ -87,19 +87,19 @@ jobs:
           cat $SERVICE_PATH
           
           NEW_TAG="${{ github.event.client_payload.tag }}"
-			    NEW_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ needs.choose-service.outputs.service-name }}"
+          NEW_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ needs.choose-service.outputs.service-name }}"
     
-    echo "New values to be set:"
-    echo "Tag: $NEW_TAG"
-    echo "Repository: $NEW_REPO"
+          echo "New values to be set:"
+          echo "Tag: $NEW_TAG"
+          echo "Repository: $NEW_REPO"
     
-    # yq를 사용하여 values.yaml 업데이트
-    yq eval ".image.repository = \"$NEW_REPO\"" -i $SERVICE_PATH
-    yq eval ".image.tag = \"$NEW_TAG\"" -i $SERVICE_PATH
+          # yq를 사용하여 values.yaml 업데이트
+          yq eval ".image.repository = \"$NEW_REPO\"" -i $SERVICE_PATH
+          yq eval ".image.tag = \"$NEW_TAG\"" -i $SERVICE_PATH
     
-    # 업데이트 후 파일 내용을 출력하여 확인
-    echo "Updated values.yaml content:"
-    cat $SERVICE_PATH
+          # 업데이트 후 파일 내용을 출력하여 확인
+          echo "Updated values.yaml content:"
+          cat $SERVICE_PATH
 
       - name: Commit and Push Changes
         run: |
@@ -108,31 +108,32 @@ jobs:
           git add .
           git commit -m "Update ${{ needs.choose-service.outputs.service-name }} values.yaml with new image"
           git push
-      # argocd 동기화(배포)
+
+      # ArgoCD 동기화(배포)
       - name: Sync Application in ArgoCD
-			  env:
-			    ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
-			    ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
-			    ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
-			  run: |
-			    echo "Logging into ArgoCD..."
-			    if ! argocd login $ARGOCD_SERVER \
-			      --username $ARGOCD_USERNAME \
-			      --password $ARGOCD_PASSWORD \
-			      --insecure \
-			      --grpc-web; then
-			      echo "Failed to login to ArgoCD"
-			      exit 1
-			    fi
-			    
-			    echo "Checking ArgoCD connection..."
-			    if ! argocd account get-user-info; then
-			      echo "Failed to get user info"
-			      exit 1
-			    fi
-			    
-			    echo "Syncing ${{ needs.choose-service.outputs.service-name }} in ArgoCD..."
-			    if ! argocd app sync ${{ needs.choose-service.outputs.service-name }}; then
-			      echo "Failed to sync application"
-			      exit 1
-			    fi
+        env:
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
+          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+        run: |
+          echo "Logging into ArgoCD..."
+          if ! argocd login $ARGOCD_SERVER \
+            --username $ARGOCD_USERNAME \
+            --password $ARGOCD_PASSWORD \
+            --insecure \
+            --grpc-web; then
+            echo "Failed to login to ArgoCD"
+            exit 1
+          fi
+          
+          echo "Checking ArgoCD connection..."
+          if ! argocd account get-user-info; then
+            echo "Failed to get user info"
+            exit 1
+          fi
+          
+          echo "Syncing ${{ needs.choose-service.outputs.service-name }} in ArgoCD..."
+          if ! argocd app sync ${{ needs.choose-service.outputs.service-name }}; then
+            echo "Failed to sync application"
+            exit 1
+          fi
