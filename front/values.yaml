@@ -1,9 +1,7 @@
 replicaCount: 3
-
 appLabels: # deployment 파드
   app: front
   name: front-deployment
-
 service: # svc 파드
   name: front-service
   namespace: front
@@ -18,14 +16,7 @@ service: # svc 파드
     - name: http-web
       port: 3003
       targetPort: 3003
-      
-    
 image:
-  repository: daegwan/mult # 도커 이미지 이름
-  tag: latest
+  repository: .dkr.ecr..amazonaws.com/adaptors_fe_monorepo # 도커 이미지 이름
+  tag: "68"
   pullPolicy: Always
-
-
-
-
-
