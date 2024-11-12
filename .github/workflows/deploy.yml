@@ -67,6 +67,10 @@ jobs:
           chmod +x /usr/local/bin/argocd
 
       - name: Update values.yaml with New Image
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SERVICE_NAME: ${{ needs.choose-service.outputs.service-name }}
         run: |
           # CI 레포에서 가져온 service-name을 기반으로 Helm 차트 경로 지정
           declare -A path_mapping
@@ -87,7 +91,7 @@ jobs:
           cat $SERVICE_PATH
           
           NEW_TAG="${{ github.event.client_payload.tag }}"
-          NEW_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ needs.choose-service.outputs.service-name }}"
+          NEW_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${SERVICE_NAME}"
     
           echo "New values to be set:"
           echo "Tag: $NEW_TAG"
