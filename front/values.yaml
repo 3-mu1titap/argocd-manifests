@@ -1,9 +1,7 @@
 replicaCount: 3
-
 appLabels: # deployment 파드
   app: front
   name: front-deployment
-
 service: # svc 파드
   name: front-service
   namespace: front
@@ -19,13 +17,7 @@ service: # svc 파드
       port: 3003
       targetPort: 3003
 
-    
 image:
-  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap  # 도커 이미지 이름
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
   tag: front-75
   pullPolicy: Always
-
-
-
-
-
