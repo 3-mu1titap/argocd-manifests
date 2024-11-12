@@ -17,6 +17,6 @@ service: # svc 파드
       port: 3003
       targetPort: 3003
 image:
-  repository: .dkr.ecr..amazonaws.com/adaptors
-  tag: "68"
+  repository: .dkr.ecr..amazonaws.com/adaptors_fe_monorepo
+  tag: "69"
   pullPolicy: Always
