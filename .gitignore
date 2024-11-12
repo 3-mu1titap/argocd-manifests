@@ -10,5 +10,5 @@ aws-auth.yaml
 07-deploying-demo-application/
 14-cicd/
 #
-
+secret.yaml
 .devbox/**/*

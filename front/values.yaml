@@ -21,3 +21,5 @@ image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
   tag: front-75
   pullPolicy: Always
+
+secretName: frontend-secret 

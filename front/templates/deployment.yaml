@@ -22,7 +22,8 @@ spec:
         ports:
         {{- range .Values.service.ports }}
         - containerPort: {{ .targetPort }}
+          name: {{ .name }}
         {{- end }}
-        envFrom:                     # 환경변수 추가 시작
+        envFrom:
         - secretRef:
-            name: frontend-secret
+            name: {{ .Values.secretName }}
