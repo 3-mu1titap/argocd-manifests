@@ -19,34 +19,29 @@ jobs:
       service-name: ${{ steps.check-source.outputs.service-name }}
       service-type: ${{ steps.check-source.outputs.service-type }}
     steps:
-      - name: Use ORG_NAME
-        run: |
-          echo "Organization 이름 : $ORG_NAME"
-
       - name: Check source repository
         id: check-source
         run: |
-          # repository_dispatch 이벤트로 전달된 client_payload에서 repository 이름을 가져옵니다.
-          REPO_NAME="${{ github.event.client_payload.repository }}"
+          # 전달받은 repository와 tag 정보 확인
+          echo "Received repository: ${{ github.event.client_payload.service_name }}"
+          echo "Received tag: ${{ github.event.client_payload.tag }}"
           
-          # service-name 추출
-          echo "service-name=${REPO_NAME}" >> $GITHUB_OUTPUT
-          
-          # service-type 결정 (frontend 또는 backend)
-          declare -A repo_type
-          repo_type=(
-            ["adaptors_fe_monorepo"]="front" # adaptors_fe_monorepo, 디렉토리 이름
-            # ["back-repo"]="backend"
-            # ["service3-repo"]="service3"
-            # ["service4-repo"]="service4"
-            # 필요한 만큼 추가
+          # ArgoCD application 이름 매핑
+          declare -A app_names
+          app_names=(
+            ["adaptors_fe_monorepo"]="front"    # ArgoCD application 이름
+            ["user-service"]="user"             # 백엔드 서비스들
+            ["payment-service"]="payment"
+            ["order-service"]="order"
+            # 다른 백엔드 서비스 추가
           )
           
-          # 서비스 타입을 정의하고, 해당 repo 서비스 타입을 출력
-          if [[ -n "${repo_type[$REPO_NAME]}" ]]; then
-            echo "service-type=${repo_type[$REPO_NAME]}" >> $GITHUB_OUTPUT
+          REPO_NAME="${{ github.event.client_payload.service_name }}"
+          if [[ -n "${app_names[$REPO_NAME]}" ]]; then
+            echo "service-name=${app_names[$REPO_NAME]}" >> $GITHUB_OUTPUT
+            echo "service-type=${REPO_NAME}" >> $GITHUB_OUTPUT
           else
-            echo "Error: REPO_NAME '$REPO_NAME' not found in repo_type."
+            echo "Error: Unknown repository: $REPO_NAME"
             exit 1
           fi
 
@@ -57,63 +52,53 @@ jobs:
       - name: Checkout Manifest Repo
         uses: actions/checkout@v3
         with:
-          repository: ${{ env.ORG_NAME }}/argocd-manifests  # argocd-manifests
+          repository: ${{ env.ORG_NAME }}/argocd-manifests
           token: ${{ secrets.MY_GITHUB_TOKEN }}
 
-      # ArgoCD CLI 설치 단계 추가
       - name: Install ArgoCD CLI
         run: |
           curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.5.3/argocd-linux-amd64
           chmod +x /usr/local/bin/argocd
 
-      - name: Update values.yaml with New Image
-        env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          SERVICE_NAME: ${{ needs.choose-service.outputs.service-name }}
+      - name: Update values.yaml
         run: |
-          # CI 레포에서 가져온 service-name을 기반으로 Helm 차트 경로 지정
-          declare -A path_mapping
-          path_mapping=(
-            ["adaptors_fe_monorepo"]="front"
-            # ["back-repo"]="backend"
-            # 필요한 다른 매핑 추가
+          # values.yaml 경로 매핑
+          declare -A service_paths
+          service_paths=(
+            ["front"]="front"        # 프론트엔드는 front 디렉토리
+            # ["user"]="backend/user"  # 백엔드는 backend/서비스명 디렉토리
+            # ["payment"]="backend/payment"
+            # ["order"]="backend/order"
+            # # 다른 백엔드 서비스 경로 추가
           )
           
-          # 레포 이름을 실제 경로명으로 변환
-          FOLDER_NAME="${path_mapping[${{ needs.choose-service.outputs.service-name }}]}"
+          # ArgoCD application 이름으로 경로 찾기
+          APP_NAME="${{ needs.choose-service.outputs.service-name }}"
+          SERVICE_PATH="${service_paths[$APP_NAME]}/values.yaml"
           
-          # 실제 values.yaml 경로 설정
-          SERVICE_PATH="${FOLDER_NAME}/values.yaml"
+          if [ ! -f "$SERVICE_PATH" ]; then
+            echo "Error: values.yaml not found at $SERVICE_PATH"
+            exit 1
+          fi
           
-          #변경 내용 전 디버깅
-          echo "Current values.yaml content:"
+          echo "Updating values.yaml at $SERVICE_PATH"
+          echo "Current content:"
           cat $SERVICE_PATH
           
-          NEW_TAG="${{ github.event.client_payload.tag }}"
-          NEW_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${SERVICE_NAME}"
-    
-          echo "New values to be set:"
-          echo "Tag: $NEW_TAG"
-          echo "Repository: $NEW_REPO"
-    
-          # yq를 사용하여 values.yaml 업데이트
-          yq eval ".image.repository = \"$NEW_REPO\"" -i $SERVICE_PATH
-          yq eval ".image.tag = \"$NEW_TAG\"" -i $SERVICE_PATH
-    
-          # 업데이트 후 파일 내용을 출력하여 확인
-          echo "Updated values.yaml content:"
+          # 이미지 태그만 업데이트
+          yq eval ".image.tag = \"${{ github.event.client_payload.tag }}\"" -i $SERVICE_PATH
+          
+          echo "Updated content:"
           cat $SERVICE_PATH
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.name "daegwan00"  # daegwan00
-          git config --global user.email "gwanse2709@naver.com"  # gwanse2709@naver.com
+          git config --global user.name "daegwan00"
+          git config --global user.email "gwanse2709@naver.com"
           git add .
-          git commit -m "Update ${{ needs.choose-service.outputs.service-name }} values.yaml with new image"
+          git commit -m "Update ${{ needs.choose-service.outputs.service-name }} image tag to ${{ github.event.client_payload.tag }}"
           git push
 
-      # ArgoCD 동기화(배포)
       - name: Sync Application in ArgoCD
         env:
           ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
@@ -121,23 +106,18 @@ jobs:
           ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
         run: |
           echo "Logging into ArgoCD..."
-          if ! argocd login $ARGOCD_SERVER \
+          argocd login $ARGOCD_SERVER \
             --username $ARGOCD_USERNAME \
             --password $ARGOCD_PASSWORD \
             --insecure \
-            --grpc-web; then
-            echo "Failed to login to ArgoCD"
-            exit 1
-          fi
+            --grpc-web
           
           echo "Checking ArgoCD connection..."
-          if ! argocd account get-user-info; then
-            echo "Failed to get user info"
-            exit 1
-          fi
+          argocd account get-user-info
           
-          echo "Syncing ${{ needs.choose-service.outputs.service-name }} in ArgoCD..."
-          if ! argocd app sync ${{ needs.choose-service.outputs.service-name }}; then
-            echo "Failed to sync application"
+          echo "Syncing application..."
+          APP_NAME="${{ needs.choose-service.outputs.service-name }}"  # ArgoCD application 이름 사용
+          if ! argocd app sync $APP_NAME --timeout 180; then
+            echo "Failed to sync $APP_NAME"
             exit 1
           fi
