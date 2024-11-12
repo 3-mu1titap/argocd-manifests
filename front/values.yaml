@@ -18,11 +18,11 @@ service: # svc 파드
     - name: http-web
       port: 3003
       targetPort: 3003
-      
+
     
 image:
-  repository: daegwan/multi-front2 # 도커 이미지 이름
-  tag: latest
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap  # 도커 이미지 이름
+  tag: front-75
   pullPolicy: Always
 
 
