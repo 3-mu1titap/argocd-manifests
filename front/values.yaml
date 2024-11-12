@@ -18,5 +18,5 @@ service: # svc 파드
       targetPort: 3003
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/s
-  tag: "70"
+  tag: "front-74"
   pullPolicy: Always
