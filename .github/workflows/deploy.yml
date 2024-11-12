@@ -29,7 +29,7 @@ jobs:
           # ArgoCD application 이름 매핑
           declare -A app_names
           app_names=(
-            [adaptors_fe_monorepo"]="front"    # ArgoCD application 이름
+            [adaptors_fe_monorepo]="front"    # ArgoCD application 이름
             [user-service]="user"             # 백엔드 서비스들
             [payment-service]="payment"
             [order-service]="order"
