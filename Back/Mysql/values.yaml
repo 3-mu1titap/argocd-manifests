@@ -1,0 +1,39 @@
+architecture: "standalone"
+
+auth:
+  rootPassword: "daegwan313@"
+  database: auth-service
+  username: multi
+  password: "multi333"
+
+primary:
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: "gp2-custom"  # EKS의 경우 gp2 또는 gp3를 사용
+  
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m" 
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+  service:
+    type: LoadBalancer    # EKS에서 외부 접속용
+    port: 3306
+    annotations: {}    # 빈 annotations 객체 추가
+    clusterIP: "" 
+
+secondary:
+  service:
+    type: ClusterIP
+    ports:
+      mysql: 3306
+    annotations: {}

@@ -1,0 +1,14 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: {{ .Release.Name }}-jwt-auth
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "auth-service.labels" . | nindent 4 }}
+config:
+  secret_is_base64: false
+  key_claim_name: kid
+  claims_to_verify:
+    - exp
+    - nbf
+plugin: jwt

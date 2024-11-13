@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "auth-service.fullname" . }}
+  labels:
+    {{- include "auth-service.labels" . | nindent 4 }}
+spec:
+replicas: {{ .Values.replicaCount }}
+selector:
+  matchLabels:
+    {{- include "auth-service.selectorLabels" . | nindent 6 }}
+template:
+  metadata:
+    labels:
+      {{- include "auth-service.selectorLabels" . | nindent 8 }}
+  spec:
+    containers:
+      - name: {{ Chart.Name}}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        #이 부분 configmap 추가 
+        ports:
+          - containerPort: {{ .Values.service.targetPort }}
+        env:
+          - name: SPRING_DATASOURCE_URL # 데이터베이스 url
+            value: {{ .Values.database.host }}
+          - name: SPRING_DATASOURCE_USERNAME # 데이터베이스 유저 이름
+            valueForm:
+              secretKeyRef:
+                name: {{ include "auth-service.fullname" . }}
+                key: db-username
+          - name: REDIS_HOST 
+            value: {{ .Values.redis.host | quote}}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}      
