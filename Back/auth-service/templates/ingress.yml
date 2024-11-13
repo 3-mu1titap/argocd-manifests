@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Ingress
+metadata:
+  name: {{ include "auth-service.fullname" . }}
+  annotations:
+    {{- include "auth-service.ingress.annotations" . | nindent 4 }}
+    konghq.com/plugins: {{ .Release.Name }}-jwt-auth # kong 플러그 인
+  spec:
+    ingressClassName: {{ .Values.ingressClassName }}
+    rules:
+      - http:
+          paths:
+            {{- range.Values.ingress.paths }}
+            - path: {{ .path }}
+              pathType: {{ .pathType }}
+              backend:
+                service:
+                  name: {{ include "auth-service.fullname" $ }}
+                  port:
+                    number: {{ $.Values.service.port }}
+            {{- end }}
+    {{- end }}       
+    

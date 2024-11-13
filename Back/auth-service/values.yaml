@@ -1,0 +1,53 @@
+replicaCount: 3
+
+image:
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
+  tag: auth-1
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 9100
+
+ingress:
+  enabled: true
+  className: kong
+  annotations:
+    konghq.com/strip-path: "true"
+  paths:
+    - path: /api/auth
+      pathType: Prefix
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+database:
+  host: ""
+  port: "3306"
+  name: "auth-service"
+  username: "" # 시크릿에 추가할 내용들
+  password: "" # 시크릿에 추가할 내용들
+
+redis:
+  host: "redis-service"
+  port: "6379"
+
+jwt:
+  secret: ""
+  accessTokenValidity: 3600000
+  refreshTokenValidity: 604800000
+
+mail:
+  host: "smtp.gmail.com"
+  port: "587"
+  username: ""
+  password: "" # 시크릿에 추가 할 내용들
