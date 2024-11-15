@@ -1,5 +1,8 @@
 replicaCount: 3
 
+server:
+  port: 9100 
+
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
   tag: auth-1
@@ -18,9 +21,24 @@ ingress:
   className: kong
   annotations:
     konghq.com/strip-path: "true"
-  paths:
-    - path: /api/auth
-      pathType: Prefix
+  # 인증 인가 필요 없는 회원가입, 로그인
+  public:
+    enabled: true
+    paths:
+      - path: /api/v1/auth/sign-up
+        pathType: Prefix
+      - path: /api/v1/auth/sign-in
+        pathType: Prefix
+  # 인증 인가 필요한 것들
+  protected:
+    enabled: true
+    paths:
+      - path: /api/v3/auth
+        pathType: Prefix
+    annotations:
+      konghq.com/plugins: jwt-auth-{{ .Release.Name }}
+
+
 
 resources:
   requests:
@@ -38,8 +56,8 @@ database:
   password: "" # 시크릿에 추가할 내용들
 
 redis:
-  host: "redis-service"
-  port: "6379"
+  host: ""
+  port: ""
 
 jwt:
   secret: ""

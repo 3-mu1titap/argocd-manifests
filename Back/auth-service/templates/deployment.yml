@@ -5,31 +5,101 @@ metadata:
   labels:
     {{- include "auth-service.labels" . | nindent 4 }}
 spec:
-replicas: {{ .Values.replicaCount }}
-selector:
-  matchLabels:
-    {{- include "auth-service.selectorLabels" . | nindent 6 }}
-template:
-  metadata:
-    labels:
-      {{- include "auth-service.selectorLabels" . | nindent 8 }}
-  spec:
-    containers:
-      - name: {{ Chart.Name}}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        #이 부분 configmap 추가 
-        ports:
-          - containerPort: {{ .Values.service.targetPort }}
-        env:
-          - name: SPRING_DATASOURCE_URL # 데이터베이스 url
-            value: {{ .Values.database.host }}
-          - name: SPRING_DATASOURCE_USERNAME # 데이터베이스 유저 이름
-            valueForm:
-              secretKeyRef:
-                name: {{ include "auth-service.fullname" . }}
-                key: db-username
-          - name: REDIS_HOST 
-            value: {{ .Values.redis.host | quote}}
-        resources:
-          {{- toYaml .Values.resources | nindent 12 }}      
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "auth-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "auth-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config # 도커파일 workdir와 일치
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env: #환경 변수 (configmap)
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: DB_HOST
+
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: DB_NAME
+
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: DB_PORT
+
+            - name: DB_USERNAME # 데이터베이스 유저 이름
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: DB_USERNAME
+
+            - name: DB_PASSWORD # 데이터베이스 비밀번호
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: DB_PASSWORD      
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: JWT_SECRET
+
+            - name: JWT_ACCESS_TOKEN_VALIDITY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: JWT_ACCESS_TOKEN_VALIDITY
+
+            - name: JWT_REFRESH_TOKEN_VALIDITY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: JWT_REFRESH_TOKEN_VALIDITY
+                  
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: MAIL_HOST
+
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: MAIL_PORT   
+              
+            - name: MAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: MAIL_USERNAME
+
+            - name: MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: MAIL_PASSWORD
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "auth-service.fullname" . }}

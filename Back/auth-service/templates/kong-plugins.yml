@@ -6,9 +6,9 @@ metadata:
   labels:
     {{- include "auth-service.labels" . | nindent 4 }}
 config:
+  header_names: ["Authorization"]
+  maximum_expiration: 86400
   secret_is_base64: false
-  key_claim_name: kid
   claims_to_verify:
     - exp
-    - nbf
 plugin: jwt

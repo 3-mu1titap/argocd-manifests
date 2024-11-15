@@ -1,0 +1,25 @@
+architecture: standalone
+
+auth:
+  enabled: true
+  password: "multi333"  # 실제 환경에서는 더 복잡한 암호 사용
+
+master:
+  persistence:
+    enabled: true
+    size: 8Gi
+  
+  resources:
+    limits:
+      memory: 1Gi
+      cpu: 1000m
+    requests:
+      memory: 512Mi
+      cpu: 500m
+
+service:
+  type: ClusterIP
+  port: 6379
+
+metrics:
+  enabled: true
