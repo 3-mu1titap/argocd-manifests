@@ -1,14 +1,18 @@
 replicaCount: 3
 
+server:
+  port: 9100 
+
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
   tag: auth-1
   pullPolicy: Always
 
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "auth-service"
 
 service:
+  name: auth-service
   type: LoadBalancer
   port: 80
   targetPort: 9100
@@ -17,10 +21,37 @@ ingress:
   enabled: true
   className: kong
   annotations:
-    konghq.com/strip-path: "true"
-  paths:
-    - path: /api/auth
-      pathType: Prefix
+    konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+  public:
+    enabled: true
+    annotations:
+      konghq.com/methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+      konghq.com/plugins: cors-auth-service
+      konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+      konghq.com/strip_path: "true"
+    paths:
+      - path: /api/v1/auth/sign-up  # 경로 수정
+        pathType: Exact
+      - path: /api/v1/auth/sign-in  # 경로 수정
+        pathType: Exact
+      # Swagger UI 관련 경로 추가
+      - path: /swagger-ui.html  # 경로 수정
+        pathType: Prefix
+      - path: /swagger-ui  # 경로 수정
+        pathType: Prefix
+      - path: /v3/api-docs  # 경로 수정
+        pathType: Prefix
+      - path: /webjars  # 경로 수정
+        pathType: Prefix
+  protected:
+    enabled: true
+    annotations:
+      konghq.com/plugins: jwt-auth-auth-service
+      konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+    paths:
+      - path: /api/v1/auth/
+        pathType: Prefix
+    
 
 resources:
   requests:
@@ -38,8 +69,8 @@ database:
   password: "" # 시크릿에 추가할 내용들
 
 redis:
-  host: "redis-service"
-  port: "6379"
+  host: ""
+  port: ""
 
 jwt:
   secret: ""
@@ -51,3 +82,8 @@ mail:
   port: "587"
   username: ""
   password: "" # 시크릿에 추가 할 내용들
+
+security:
+  user:
+    name: ""
+    password: ""
