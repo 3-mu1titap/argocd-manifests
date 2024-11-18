@@ -10,7 +10,10 @@ aws-auth.yaml
 07-deploying-demo-application/
 14-cicd/
 #
-secret.yaml
+Back/auth-service/secret-values.yaml
+Back/auth-service/templates/kong-plugins.yml
+Back/redis/secret-values.yaml 
 ebs-policy.json
 storage-class.yaml
 .devbox/**/*
+

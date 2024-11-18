@@ -1,5 +1,0 @@
-Back/auth-service/templates/secret-values.yaml
-
-///git rm --cached storage-class.yaml 
-
-kong-plugins.yaml
