@@ -17,3 +17,5 @@ ebs-policy.json
 storage-class.yaml
 .devbox/**/*
 
+kong-gateway/
+k-plug.yaml
