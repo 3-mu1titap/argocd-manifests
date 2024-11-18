@@ -8,6 +8,9 @@ metadata:
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    {{- with .Values.ingress.public.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules:
@@ -23,16 +26,17 @@ spec:
                   number: {{ $.Values.service.port }}
           {{- end }}
 ---
+{{- end }}
 {{- if .Values.ingress.protected.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "auth-service.fullname" . }}-protected
   annotations:
-    {{- with .Values.ingress.protected.annotations }}
+    {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
-    {{- with .Values.ingress.annotations }}
+    {{- with .Values.ingress.protected.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
@@ -49,6 +53,5 @@ spec:
                 port:
                   number: {{ $.Values.service.port }}
           {{- end }}
-{{- end }}
 {{- end }}
 {{- end }}

@@ -9,9 +9,10 @@ image:
   pullPolicy: Always
 
 nameOverride: ""
-fullnameOverride: ""
+fullnameOverride: "auth-service"
 
 service:
+  name: auth-service
   type: LoadBalancer
   port: 80
   targetPort: 9100
@@ -20,25 +21,37 @@ ingress:
   enabled: true
   className: kong
   annotations:
-    konghq.com/strip-path: "true"
-  # 인증 인가 필요 없는 회원가입, 로그인
+    konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
   public:
     enabled: true
+    annotations:
+      konghq.com/methods: "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+      konghq.com/plugins: cors-auth-service
+      konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+      konghq.com/strip_path: "true"
     paths:
-      - path: /api/v1/auth/sign-up
+      - path: /api/v1/auth/sign-up  # 경로 수정
+        pathType: Exact
+      - path: /api/v1/auth/sign-in  # 경로 수정
+        pathType: Exact
+      # Swagger UI 관련 경로 추가
+      - path: /swagger-ui.html  # 경로 수정
         pathType: Prefix
-      - path: /api/v1/auth/sign-in
+      - path: /swagger-ui  # 경로 수정
         pathType: Prefix
-  # 인증 인가 필요한 것들
+      - path: /v3/api-docs  # 경로 수정
+        pathType: Prefix
+      - path: /webjars  # 경로 수정
+        pathType: Prefix
   protected:
     enabled: true
-    paths:
-      - path: /api/v3/auth
-        pathType: Prefix
     annotations:
-      konghq.com/plugins: jwt-auth-{{ .Release.Name }}
-
-
+      konghq.com/plugins: jwt-auth-auth-service
+      konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+    paths:
+      - path: /api/v1/auth/
+        pathType: Prefix
+    
 
 resources:
   requests:
@@ -69,3 +82,8 @@ mail:
   port: "587"
   username: ""
   password: "" # 시크릿에 추가 할 내용들
+
+security:
+  user:
+    name: ""
+    password: ""

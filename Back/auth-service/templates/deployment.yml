@@ -96,6 +96,24 @@ spec:
                   name: {{ include "auth-service.fullname" . }}
                   key: MAIL_PASSWORD
 
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: REDIS_HOST
+            
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: REDIS_PORT
+
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: REDIS_PASSWORD
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
