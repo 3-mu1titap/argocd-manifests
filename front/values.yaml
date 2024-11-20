@@ -18,6 +18,6 @@ service: # svc 파드
       targetPort: 3003
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: front-87
+  tag: front-88
   pullPolicy: Always
 secretName: frontend-secret
