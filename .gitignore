@@ -19,3 +19,10 @@ storage-class.yaml
 
 kong-gateway/
 k-plug.yaml
+
+Back/central
+Back/Mysql
+Back/redis
+Back/kafka
+Back/kafka2
+argocd-values.yaml

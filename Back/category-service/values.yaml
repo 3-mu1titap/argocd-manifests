@@ -1,0 +1,35 @@
+replicaCount: 1
+
+server:
+  port: 9000
+
+image:
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
+  tag: category-1
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: "category-service"
+
+service:
+  name: category-service
+  type: ClusterIP
+  port: 80
+  targetPort: 9000
+
+# ingress:
+#   enabled: true
+#   className: kong
+#   annotations:
+#     konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+#     paths:
+#       - path: /api/v1/category  # 경로 수정
+#         pathType: prefix
+
+database:
+  host: ""
+  port: ""
+  name: ""
+  username: ""
+  password: ""
+  

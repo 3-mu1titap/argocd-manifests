@@ -1,0 +1,44 @@
+replicaCount: 1
+
+image:
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
+  tag: mentor-1
+  pullPolicy: Always
+
+server:
+  port: 9600
+
+nameOverride: ""
+fullnameOverride: "mentoring-service"
+
+service:
+  name: mentoring-service
+  type: ClusterIP
+  port: 80
+  targetPort: 9600
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+database:
+  host: ""
+  port: ""
+  username: ""
+  password: ""
+
+# ingress:
+#   enabled: true
+#   className: kong
+#   annotations:
+#     konghq.com/protocols: "http,https"  # HTTP와 HTTPS 프로토콜 허용
+#   paths:
+#     - path: /api/v1/mentor/
+#       pathType: Prefix
+
+
+
