@@ -7,7 +7,9 @@ metadata:
 data:
   application.yml: |
     server: 
-      port: {{ .Values.server.port }} 
+      port: {{ .Values.server.port }}
+      servlet:
+        context-path: /auth-service
     spring:
       web:
         cors:
@@ -18,7 +20,7 @@ data:
       application:
         name: auth-service
       datasource:
-        url: jdbc:mysql:// ${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD} 
         driver-class-name: com.mysql.cj.jdbc.Driver

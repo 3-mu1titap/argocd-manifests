@@ -1,4 +1,5 @@
-replicaCount: 3
+replicaCount: 1
+
 appLabels: # deployment 파드
   app: front
   name: front-deployment
