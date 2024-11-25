@@ -1,16 +1,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "member-service.fullname" . }}
+  name: {{ include "hashtag-service.fullname" . }}
   labels:
-    {{- include "member-service.labels" . | nindent 4 }}
+    {{- include "hashtag-service.labels" . | nindent 4 }}
 data:
   application.yml: |
     server:
       port: {{ .Values.server.port }}
+      servlet:
+        context-path: /hashtag-service
 
     application:
-      name: member-service
+      name: hashtag-service
 
     datasource:
       url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
@@ -43,11 +45,11 @@ data:
         use-root-path: true
 
     swagger:
-      uri: "/member-service"
+      uri: "/hashtag-service"
 
     kafka:
       cluster:
-        uri: "3.35.228.51:29092,3.35.228.51:39092,3.35.228.51:49092"
+        uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
       
     logging:
       level:

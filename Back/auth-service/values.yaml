@@ -1,7 +1,7 @@
 replicaCount: 1
 
 server:
-  port: 9100 
+  port: 8080 
 
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
@@ -13,9 +13,9 @@ fullnameOverride: "auth-service"
 
 service:
   name: auth-service
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
-  targetPort: 9100
+  targetPort: 8080
 
 ingress:
   enabled: true
@@ -86,3 +86,9 @@ security:
   user:
     name: ""
     password: ""
+
+sElastic:
+  host: ""
+  port1: ""
+  port2: ""
+  port3: ""

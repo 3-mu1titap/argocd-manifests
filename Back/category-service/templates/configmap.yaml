@@ -8,6 +8,8 @@ data:
   application.yml: |
     server:
       port: {{ .Values.server.port }}
+      servlet:
+        context-path: /category-service
     
     application:
       name: category-service
@@ -35,9 +37,6 @@ data:
     swagger:
       uri: "/category-service"
     
-    kafka:
-        cluster:
-          uri: "3.35.228.51:29092,3.35.228.51:39092,3.35.228.51:49092"
 
     logging:
       level:

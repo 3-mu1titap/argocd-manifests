@@ -1,7 +1,7 @@
 replicaCount: 1
 
 server:
-  port: 9000
+  port: 8080
 
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
@@ -15,7 +15,7 @@ service:
   name: category-service
   type: ClusterIP
   port: 80
-  targetPort: 9000
+  targetPort: 8080
 
 # ingress:
 #   enabled: true

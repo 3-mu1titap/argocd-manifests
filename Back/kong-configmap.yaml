@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kong-config
+  namespace: kong
+data:
+  kong.yml: |
+    _format_version: "2.1"
+    
+    # Global plugins
+    plugins:
+    # JWT 플러그인 설정
+    - name: jwt
+      config:
+        header_names:
+          - Authorization
+        run_on_preflight: false
+        key_claim_name: sub
+        secret_is_base64: false
+        maximum_expiration: 86400
+    
+    # CORS 플러그인 설정
+    - name: cors
+      config:
+        origins:
+          - "*"
+          - "http://a252c4d2b75064f1283af52be8852dea-346657601.ap-northeast-2.elb.amazonaws.com"
+          - "http://a252c4d2b75064f1283af52be8852dea-346657601.ap-northeast-2.elb.amazonaws.com/swagger-ui/index.html"
+          - "http://a252c4d2b75064f1283af52be8852dea-346657601.ap-northeast-2.elb.amazonaws.com/swagger-ui.html"
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+          - OPTIONS
+        headers:
+          - Authorization
+          - Content-Type
+          - Accept
+          - Accept-Version
+          - Content-Length
+          - Origin
+          - Access-Control-Request-Method
+          - Access-Control-Request-Headers
+          - X-Requested-With
+          - Access-Control-Allow-Origin
+        exposed_headers:
+          - Authorization
+          - X-Custom-Header
+        credentials: true
+        max_age: 3600
+        preflight_continue: false
+
+    # 서비스 설정 (필요한 경우 추가)
+    services:
+    - name: Auth-service-external
+      url: http://auth-service.auth:80
+      routes:
+      - name: auth-api
+        paths:
+        - /api/v1/auth
+        strip_path: false
+        methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        plugins:
+        - name: cors
+      
+      # 스웨거 문서 라우트
+      - name: auth-swagger
+        paths:
+        - /api/auth/v3/api-docs
+        strip_path: false
+        methods:
+        - GET
+
+    - name: Member-service
+      url: http://member-service.member:80
+      routes:
+      - name: member-api
+        paths:
+        - /api/v1/member
+        strip_path: false
+        methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        plugins:
+        - name: cors
+        - name: jwt
+      
+      # 스웨거 문서 라우트
+      - name: member-swagger
+        paths:
+        - /api/member/v3/api-docs
+        strip_path: false
+        methods:
+        - GET
+
+      
+

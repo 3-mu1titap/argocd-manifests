@@ -2,20 +2,20 @@ replicaCount: 1
 
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: chat-1
+  tag: session-1
   pullPolicy: Always
 
 server:
-  port: 8080
+  port: 8000
 
 nameOverride: ""
-fullnameOverride: "chat-service"
+fullnameOverride: "session-request-service"
 
 service:
-  name: chat-service
+  name: session-request-service
   type: ClusterIP
   port: 80
-  targetPort: 8080
+  targetPort: 8000
 
 resources:
   requests:
@@ -25,19 +25,16 @@ resources:
     cpu: 500m
     memory: 1Gi
 
+database:
+  host: ""
+  port: ""
+  name: ""
+  username: ""
+  password: ""
+
 sElastic:
   host: ""
   port1: ""
   port2: ""
   port3: ""
-
-mongo:
-  username: ""
-  password: ""
-  hostPrimary: ""
-  portPrimary: ""
-  hostSecondary1: ""
-  portSecondary1: ""
-  hostSecondary2: ""
-  portSecondary2: ""
 

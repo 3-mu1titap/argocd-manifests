@@ -2,17 +2,17 @@ replicaCount: 1
 
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: chat-1
+  tag: memberQ-1
   pullPolicy: Always
 
 server:
   port: 8080
 
 nameOverride: ""
-fullnameOverride: "chat-service"
+fullnameOverride: "member-query-service"
 
 service:
-  name: chat-service
+  name: member-query-service
   type: ClusterIP
   port: 80
   targetPort: 8080
@@ -24,6 +24,7 @@ resources:
   limits:
     cpu: 500m
     memory: 1Gi
+
 
 sElastic:
   host: ""
