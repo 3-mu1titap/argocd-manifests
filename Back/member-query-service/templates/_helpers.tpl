@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "chat-service.name" -}}
+{{- define "member-query-service.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "chat-service.fullname" -}}
+{{- define "member-query-service.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -20,9 +20,9 @@ Create a default fully qualified app name.
 {{/*
 Common labels 
 */}}
-{{- define "chat-service.labels" -}}
-helm.sh/chart: {{ include "chat-service.name" . }}
-app.kubernetes.io/name: {{ include "chat-service.name" . }}
+{{- define "member-query-service.labels" -}}
+helm.sh/chart: {{ include "member-query-service.name" . }}
+app.kubernetes.io/name: {{ include "member-query-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -33,15 +33,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "chat-service.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chat-service.name" . }}
+{{- define "member-query-service.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "member-query-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Ingress annotations
 */}}
-{{- define "chat-service.ingress.annotations" -}}
+{{- define "member-query-service.ingress.annotations" -}}
 {{- if .Values.ingress.annotations }}
 {{- toYaml .Values.ingress.annotations }}
 {{- end }}

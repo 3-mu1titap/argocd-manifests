@@ -1,10 +1,13 @@
 architecture: "standalone"
 
 auth:
+  rootUser: root
   rootPassword: "daegwan313@"
-  database: auth-service
   username: multi
   password: "multi333"
+  database: "multi-ser" 
+  permissions: ["CREATE", "ALTER", "DROP", "INSERT", "UPDATE", "DELETE", "SELECT", "REFERENCES", "RELOAD"]  # 권한 추가
+
 
 primary:
   persistence:
@@ -25,11 +28,13 @@ primary:
     serviceMonitor:
       enabled: true
 
-  service:
-    type: LoadBalancer    # EKS에서 외부 접속용
+  service:  # 여기서부터 들여쓰기가 잘못되어 있었습니다
+    type: LoadBalancer
     port: 3306
-    annotations: {}    # 빈 annotations 객체 추가
-    clusterIP: "" 
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    clusterIP: ""
 
 secondary:
   service:

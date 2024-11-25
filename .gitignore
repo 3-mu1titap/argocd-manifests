@@ -20,9 +20,14 @@ storage-class.yaml
 kong-gateway/
 k-plug.yaml
 
+**/secret-values.yaml
+
 Back/central
 Back/Mysql
 Back/redis
 Back/kafka
 Back/kafka2
 argocd-values.yaml
+dg-group.yaml
+
+kong-config.yaml

@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "member-service.name" -}}
+{{- define "review-service.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "member-service.fullname" -}}
+{{- define "review-service.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -20,9 +20,9 @@ Create a default fully qualified app name.
 {{/*
 Common labels 
 */}}
-{{- define "member-service.labels" -}}
-helm.sh/chart: {{ include "member-service.name" . }}
-app.kubernetes.io/name: {{ include "member-service.name" . }}
+{{- define "review-service.labels" -}}
+helm.sh/chart: {{ include "review-service.name" . }}
+app.kubernetes.io/name: {{ include "review-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
@@ -33,15 +33,15 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "member-service.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "member-service.name" . }}
+{{- define "review-service.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "review-service.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Ingress annotations
 */}}
-{{- define "member-service.ingress.annotations" -}}
+{{- define "review-service.ingress.annotations" -}}
 {{- if .Values.ingress.annotations }}
 {{- toYaml .Values.ingress.annotations }}
 {{- end }}

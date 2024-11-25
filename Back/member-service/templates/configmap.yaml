@@ -8,7 +8,8 @@ data:
   application.yml: |
     server:
       port: {{ .Values.server.port }}
-
+      servlet:
+        context-path: /member-service
     application:
       name: member-service
 
@@ -47,7 +48,7 @@ data:
 
     kafka:
       cluster:
-        uri: "3.35.228.51:29092,3.35.228.51:39092,3.35.228.51:49092"
+        uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
       
     logging:
       level:

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: member-query-service
+description: A Helm chart for MEMBER-QUERY_SERVICE
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
