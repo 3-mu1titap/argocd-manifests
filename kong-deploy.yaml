@@ -5,7 +5,7 @@ metadata:
     deployment.kubernetes.io/revision: "1"
     meta.helm.sh/release-name: kong
     meta.helm.sh/release-namespace: kong
-  creationTimestamp: "2024-11-23T10:03:53Z"
+  creationTimestamp: "2024-11-24T06:11:22Z"
   generation: 1
   labels:
     app.kubernetes.io/component: app
@@ -16,8 +16,8 @@ metadata:
     helm.sh/chart: gateway-2.38.0
   name: kong-gateway
   namespace: kong
-  resourceVersion: "6480160"
-  uid: f05a8516-d9d2-4cd2-987f-3b055d1f75ab
+  resourceVersion: "7255739"
+  uid: 2137a572-4836-4c26-8a06-943605740b3d
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -35,7 +35,6 @@ spec:
   template:
     metadata:
       annotations:
-        kubectl.kubernetes.io/restartedAt: "2024-11-16T16:08:09+09:00"
         kuma.io/gateway: enabled
         kuma.io/service-account-token-volume: kong-gateway-token
         traffic.sidecar.istio.io/includeInboundPorts: ""
@@ -53,8 +52,6 @@ spec:
       automountServiceAccountToken: false
       containers:
       - env:
-        - name: KONG_LOG_LEVEL
-          value: debug
         - name: KONG_ADMIN_ACCESS_LOG
           value: /dev/stdout
         - name: KONG_ADMIN_ERROR_LOG
@@ -106,8 +103,8 @@ spec:
           value: "off"
         - name: KONG_NGINX_DAEMON
           value: "off"
-        - name: KONG_DECLARATIVE_CONFIG
-          value: /kong/declarative/kong.yml
+        - name: KONG_JWT_SECRET
+          value: "ThisIsAVeryLongSecretKeyThatIsAtLeast32Characters!"
         image: kong:3.6
         imagePullPolicy: IfNotPresent
         lifecycle:
@@ -169,8 +166,9 @@ spec:
           name: kong-gateway-prefix-dir
         - mountPath: /tmp
           name: kong-gateway-tmp
-        - mountPath: /kong/declarative
-          name: kong-config-volume
+        - name: kong-config
+          mountPath: /etc/kong
+          readOnly: true
       dnsPolicy: ClusterFirst
       initContainers:
       - command:
@@ -227,8 +225,6 @@ spec:
           value: 0.0.0.0:8100, [::]:8100
         - name: KONG_STREAM_LISTEN
           value: "off"
-        - name: KONG_DECLARATIVE_CONFIG
-          value: /kong/declarative/kong.yml
         image: kong:3.6
         imagePullPolicy: IfNotPresent
         name: clear-stale-pid
@@ -281,25 +277,24 @@ spec:
                   apiVersion: v1
                   fieldPath: metadata.namespace
                 path: namespace
-      - configMap:
-          defaultMode: 420
+      - name: kong-config
+        configMap:
           name: kong-config
-        name: kong-config-volume
 status:
   availableReplicas: 1
   conditions:
-  - lastTransitionTime: "2024-11-23T10:04:04Z"
-    lastUpdateTime: "2024-11-23T10:04:04Z"
+  - lastTransitionTime: "2024-11-24T06:11:22Z"
+    lastUpdateTime: "2024-11-24T06:11:43Z"
+    message: ReplicaSet "kong-gateway-54dbbdf8c" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  - lastTransitionTime: "2024-11-26T00:13:12Z"
+    lastUpdateTime: "2024-11-26T00:13:12Z"
     message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
     status: "True"
     type: Available
-  - lastTransitionTime: "2024-11-23T10:03:53Z"
-    lastUpdateTime: "2024-11-23T10:04:04Z"
-    message: ReplicaSet "kong-gateway-78c888df4" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
   observedGeneration: 1
   readyReplicas: 1
   replicas: 1
