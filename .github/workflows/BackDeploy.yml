@@ -1,0 +1,131 @@
+name: BackToArgo
+
+on:
+  repository_dispatch:
+    types: [ci-completed]
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+  
+env:
+  ORG_NAME: mu1titap
+
+jobs:
+  choose-service:
+    runs-on: ubuntu-latest
+    outputs:
+      service-name: ${{ steps.check-source.outputs.service-name }}
+      service-type: ${{ steps.check-source.outputs.service-type }}
+    steps:
+      - name: Check source repository
+        id: check-source
+        run: |
+          # 전달받은 repository와 tag 정보 확인
+          echo "Received repository: ${{ github.event.client_payload.service_name }}"
+          echo "Received tag: ${{ github.event.client_payload.tag }}"
+          
+          # ArgoCD application 이름 매핑
+          declare -A app_names
+          app_names=(
+            #["adaptors_fe_monorepo"]="front"    # ArgoCD application 이름
+             ["auth-service"]="auth"             # 백엔드 서비스들
+             ["payment-service"]="payment"
+             ["session-service"]="session"
+             ["mentoring-service"]="mentoring"
+             ["category-service"]="category"
+             ["member-service"]="member"
+       
+             
+             #다른 백엔드 서비스 추가
+          )
+          
+          REPO_NAME="${{ github.event.client_payload.service_name }}"
+          if [[ -n "${app_names[$REPO_NAME]}" ]]; then
+            echo "service-name=${app_names[$REPO_NAME]}" >> $GITHUB_OUTPUT
+            echo "service-type=${REPO_NAME}" >> $GITHUB_OUTPUT
+          else
+            echo "Error: Unknown repository: $REPO_NAME"
+            exit 1
+          fi
+
+  update-manifest:
+    needs: choose-service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Manifest Repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.ORG_NAME }}/argocd-manifests
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+
+      - name: Install ArgoCD CLI
+        run: |
+          curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.5.3/argocd-linux-amd64
+          chmod +x /usr/local/bin/argocd
+
+      - name: Update values.yaml
+        run: |
+          # values.yaml 경로 매핑
+          declare -A service_paths
+          service_paths=(
+                   
+            ["auth"]="Back/auth-service"  # 백엔드는 backend/서비스명 디렉토리
+            ["payment-service"]="Back/payment-service"
+            ["session-service"]="Back/session-service"
+            ["mentoring-service"]="Back/mentoring-service"
+            ["category-service"]="Back/category-service"
+            ["member-service"]="Back/member-service"
+            # # 다른 백엔드 서비스 경로 추가
+          )
+          
+          # ArgoCD application 이름으로 경로 찾기
+          APP_NAME="${{ needs.choose-service.outputs.service-name }}"
+          SERVICE_PATH="${service_paths[$APP_NAME]}/values.yaml"
+          
+          if [ ! -f "$SERVICE_PATH" ]; then
+            echo "Error: values.yaml not found at $SERVICE_PATH"
+            exit 1
+          fi
+          
+          echo "Updating values.yaml at $SERVICE_PATH"
+          echo "Current content:"
+          cat $SERVICE_PATH
+          
+          # 이미지 태그만 업데이트
+          yq eval ".image.tag = \"${{ github.event.client_payload.tag }}\"" -i $SERVICE_PATH
+          
+          echo "Updated content:"
+          cat $SERVICE_PATH
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "daegwan00"
+          git config --global user.email "gwanse2709@naver.com"
+          git add .
+          git commit -m "Update ${{ needs.choose-service.outputs.service-name }} image tag to ${{ github.event.client_payload.tag }}"
+          git push
+
+      - name: Sync Application in ArgoCD
+        env:
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
+          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+        run: |
+          echo "Logging into ArgoCD..."
+          argocd login $ARGOCD_SERVER \
+            --username $ARGOCD_USERNAME \
+            --password $ARGOCD_PASSWORD \
+            --insecure \
+            --grpc-web
+          
+          echo "Checking ArgoCD connection..."
+          argocd account get-user-info
+          
+          echo "Syncing application..."
+          APP_NAME="${{ needs.choose-service.outputs.service-name }}"  # ArgoCD application 이름 사용
+          if ! argocd app sync $APP_NAME --timeout 180; then
+            echo "Failed to sync $APP_NAME"
+            exit 1
+          fi
