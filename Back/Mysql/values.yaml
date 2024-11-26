@@ -17,11 +17,11 @@ primary:
   
   resources:
     requests:
-      memory: "1Gi"
-      cpu: "500m"
+      memory: "512Mi"    # 4Gi의 약 12.5%
+      cpu: "250m"        # 2vCPU의 약 12.5%
     limits:
-      memory: "2Gi"
-      cpu: "1000m" 
+      memory: "1Gi"      # 4Gi의 25%
+      cpu: "500m"        # 2vCPU의 25%
 
   metrics:
     enabled: true

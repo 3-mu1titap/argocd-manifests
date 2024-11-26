@@ -49,6 +49,27 @@ spec:
                 secretKeyRef:
                   name: {{ include "member-service.fullname" . }}
                   key: DB_PASSWORD
+
+            - name: ELASTIC_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-service.fullname" . }}
+                  key: ELASTIC_HOST
+            - name: ELASTIC_PORT1
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-service.fullname" . }}
+                  key: ELASTIC_PORT1
+            - name: ELASTIC_PORT2
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-service.fullname" . }}
+                  key: ELASTIC_PORT2
+            - name: ELASTIC_PORT3
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-service.fullname" . }}
+                  key: ELASTIC_PORT3
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

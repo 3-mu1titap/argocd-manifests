@@ -10,29 +10,29 @@ data:
       port: {{ .Values.server.port }}
       servlet:
         context-path: /category-service
-    
-    application:
-      name: category-service
-    
-    datasource:
-      url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
-      username: ${DB_USERNAME}
-      password: ${DB_PASSWORD}
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    spring:
+      application:
+        name: category-service
+      
+      datasource:
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
 
-    jpa:
-      hibernate:
-        ddl-auto: update
-        show-sql: true
-      properties:
+      jpa:
         hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
-          format_sql: true
-          use_sql_comments: true
-          show_sql: true
+          ddl-auto: update
+          show-sql: true
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.MySQL8Dialect
+            format_sql: true
+            use_sql_comments: true
+            show_sql: true
 
-    querydsl:
-      target: com.querydsl.apt.jpa.JPAAnnotationProcessor
+      querydsl:
+        target: com.querydsl.apt.jpa.JPAAnnotationProcessor
     
     swagger:
       uri: "/category-service"

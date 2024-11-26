@@ -6,7 +6,7 @@ image:
   pullPolicy: Always
 
 server:
-  port: 9600
+  port: 8080
 
 nameOverride: ""
 fullnameOverride: "mentoring-service"
@@ -15,7 +15,7 @@ service:
   name: mentoring-service
   type: ClusterIP
   port: 80
-  targetPort: 9600
+  targetPort: 8080
 
 resources:
   requests:
@@ -29,6 +29,12 @@ database:
   host: ""
   port: ""
   name: ""
+  username: ""
+  password: ""
+
+sElastic:
+  host: ""
+  port: ""
   username: ""
   password: ""
 
