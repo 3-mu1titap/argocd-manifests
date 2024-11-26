@@ -31,3 +31,11 @@ argocd-values.yaml
 dg-group.yaml
 
 kong-config.yaml
+kong-plug.yaml
+kong-proxy.yaml
+kong-svc.yaml
+kong-values.yaml
+kong-deploy.yaml
+
+/helm
+/common
