@@ -45,3 +45,4 @@ Back/redis
 Back/Mysql
 sealed-secrets-key.yaml
 argo-rbac.yaml
+**/secret.yaml
