@@ -46,4 +46,4 @@ Back/Mysql
 sealed-secrets-key.yaml
 argo-rbac.yaml
 **/secret.yaml
-**/sealed-secret.yaml
+# **/sealed-secret.yaml
