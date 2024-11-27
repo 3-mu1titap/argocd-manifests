@@ -36,6 +36,12 @@ kong-proxy.yaml
 kong-svc.yaml
 kong-values.yaml
 kong-deploy.yaml
+alb-ingress.yaml
 
 /helm
 /common
+Back/redis
+**/pub-cert.pem
+Back/Mysql
+sealed-secrets-key.yaml
+argo-rbac.yaml
