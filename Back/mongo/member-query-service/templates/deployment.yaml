@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "member-query-service.fullname" . }}
+  labels:
+    {{- include "member-query-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "member-query-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "member-query-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config # 도커파일 workdir와 일치
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env: #환경 변수 (configmap)
+            - name: ELASTIC_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: ELASTIC_HOST
+            - name: ELASTIC_PORT1
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: ELASTIC_PORT1
+            - name: ELASTIC_PORT2
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: ELASTIC_PORT2
+            - name: ELASTIC_PORT3
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: ELASTIC_PORT3
+
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_USERNAME
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_PASSWORD
+            - name: MONGO_HOST_PRIMARY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_HOST_PRIMARY
+            - name: MONGO_PORT_PRIMARY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_PORT_PRIMARY
+            - name: MONGO_HOST_SECONDARY_1
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_HOST_SECONDARY_1
+            - name: MONGO_PORT_SECONDARY_1 
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_PORT_SECONDARY_1
+            - name: MONGO_HOST_SECONDARY_2
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_HOST_SECONDARY_2
+            - name: MONGO_PORT_SECONDARY_2
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "member-query-service.fullname" . }}
+                  key: MONGO_PORT_SECONDARY_2
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "member-query-service.fullname" . }}
+
