@@ -1,21 +1,22 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "member-query-service.fullname" . }}
+  name: {{ include "mentoring-query-service.fullname" . }}
   labels:
-    {{- include "member-query-service.labels" . | nindent 4 }}
+    {{- include "mentoring-query-service.labels" . | nindent 4 }}
 data:
   application.yml: |
     server:
       port: {{ .Values.server.port }}
       servlet:
-        context-path: /member-query-service
-
-    application:
-      name: member-query-service
-    data:
+        context-path: /mentoring-query-service
+    spring:
+      application:
+        name: mentoring-query-service
+      data:
         mongodb:
-          uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_PRIMARY}:${MONGO_PORT_PRIMARY},${MONGO_HOST_SECONDARY_1}:${MONGO_PORT_SECONDARY_1},${MONGO_HOST_SECONDARY_2}:${MONGO_PORT_SECONDARY_2}/chat-service?replicaSet=rs0&authSource=admin
+          uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_PRIMARY}:${MONGO_PORT_PRIMARY},${MONGO_HOST_SECONDARY_1}:${MONGO_PORT_SECONDARY_1},${MONGO_HOST_SECONDARY_2}:${MONGO_PORT_SECONDARY_2}/mentoring-query-service?replicaSet=rs0&authSource=admin
+          
 
     springdoc:
       api-docs:
@@ -31,10 +32,12 @@ data:
         use-root-path: true
 
     swagger:
-      uri: "/member-query-service"
+      uri: "/mentoring-query-service"
 
     kafka:
-      bootstrap-servers: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
+      cluster:
+        uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
+
       
     logging:
       level:

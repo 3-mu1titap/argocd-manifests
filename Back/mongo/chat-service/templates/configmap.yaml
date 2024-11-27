@@ -1,37 +1,27 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "session-request-service.fullname" . }}
+  name: {{ include "chat-service.fullname" . }}
   labels:
-    {{- include "session-request-service.labels" . | nindent 4 }}
+    {{- include "chat-service.labels" . | nindent 4 }}
 data:
   application.yml: |
     server:
       port: {{ .Values.server.port }}
       servlet:
-        context-path: /session-request-service
-        
+        context-path: /chat-service
     spring:
       application:
-        name: session-request-service
-
-      datasource:
-        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
-        username: ${DB_USERNAME}
-        password: ${DB_PASSWORD}
-        driver-class-name: com.mysql.cj.jdbc.Driver
-
-    jpa:
-      hibernate:
-        ddl-auto: update
-        show-sql: true
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
-          format_sql: true
-          use_sql_comments: true
-          show_sql: true
-
+        name: chat-service
+      data:
+        mongodb:
+          uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_PRIMARY}:${MONGO_PORT_PRIMARY},${MONGO_HOST_SECONDARY_1}:${MONGO_PORT_SECONDARY_1},${MONGO_HOST_SECONDARY_2}:${MONGO_PORT_SECONDARY_2}/chat-service?replicaSet=rs0&authSource=admin
+          
+        redis:
+          host: ${REDIS_HOST}
+          port: ${REDIS_PORT}
+          password: ${REDIS_PASSWORD}
+          
     springdoc:
       api-docs:
         path: /v3/api-docs
@@ -45,18 +35,15 @@ data:
         disable-swagger-default-url: true
         use-root-path: true
 
-    data:
-      redis:
-        host: ${REDIS_HOST}
-        port: ${REDIS_PORT}
-        password: ${REDIS_PASSWORD}
+    
 
     swagger:
-      uri: "/session-request-service"
+      uri: "/chat-service"
 
     kafka:
       cluster:
         uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
+
       
     logging:
       level:
