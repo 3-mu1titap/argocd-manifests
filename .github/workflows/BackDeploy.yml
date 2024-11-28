@@ -30,12 +30,12 @@ jobs:
           declare -A app_names
           app_names=(
             #["adaptors_fe_monorepo"]="front"    # ArgoCD application 이름
-             ["auth-service"]="auth"             # 백엔드 서비스들
-             ["payment-service"]="payment"
-             ["session-service"]="session"
-             ["mentoring-service"]="mentoring"
-             ["category-service"]="category"
-             ["member-service"]="member"
+             ["auth-service"]="auth-service"             # 백엔드 서비스들
+             ["payment-service"]="payment-service"
+             ["session-service"]="session-service"
+             ["mentoring-service"]="mentoring-service"
+             ["category-service"]="category-service"
+             ["member-service"]="member-service"
        
              
              #다른 백엔드 서비스 추가
@@ -71,7 +71,7 @@ jobs:
           declare -A service_paths
           service_paths=(
                    
-            ["auth"]="Back/auth-service"  # 백엔드는 backend/서비스명 디렉토리
+            ["auth-service"]="Back/auth-service"  # 백엔드는 backend/서비스명 디렉토리
             ["payment-service"]="Back/payment-service"
             ["session-service"]="Back/session-service"
             ["mentoring-service"]="Back/mentoring-service"
