@@ -69,6 +69,24 @@ spec:
                 secretKeyRef:
                   name: {{ include "session-request-service.fullname" . }}
                   key: ELASTIC_PORT3
+            
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "session-request-service.fullname" . }}
+                  key: REDIS_HOST
+            
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "session-request-service.fullname" . }}
+                  key: REDIS_PORT
+
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "session-request-service.fullname" . }}
+                  key: REDIS_PASSWORD
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

@@ -8,11 +8,12 @@ data:
   application.yml: |
     server:
       port: {{ .Values.server.port }}
-      servlet:
-        context-path: /chat-service
+      
     spring:
       application:
         name: chat-service
+      webflux:
+        base-path: /chat-service  
       data:
         mongodb:
           uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_PRIMARY}:${MONGO_PORT_PRIMARY},${MONGO_HOST_SECONDARY_1}:${MONGO_PORT_SECONDARY_1},${MONGO_HOST_SECONDARY_2}:${MONGO_PORT_SECONDARY_2}/chat-service?replicaSet=rs0&authSource=admin

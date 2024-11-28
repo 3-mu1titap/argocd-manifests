@@ -113,6 +113,7 @@ spec:
                 secretKeyRef:
                   name: {{ include "auth-service.fullname" . }}
                   key: REDIS_PASSWORD
+                  
             - name: ELASTIC_HOST
               valueFrom:
                 secretKeyRef:

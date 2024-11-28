@@ -21,16 +21,22 @@ data:
         password: ${DB_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
 
-    jpa:
-      hibernate:
-        ddl-auto: update
-        show-sql: true
-      properties:
+      data:
+        redis:
+          host: ${REDIS_HOST}
+          port: ${REDIS_PORT}
+          password: ${REDIS_PASSWORD}
+
+      jpa:
         hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
-          format_sql: true
-          use_sql_comments: true
-          show_sql: true
+          ddl-auto: update
+          show-sql: true
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.MySQL8Dialect
+            format_sql: true
+            use_sql_comments: true
+            show_sql: true
 
     springdoc:
       api-docs:
@@ -45,11 +51,7 @@ data:
         disable-swagger-default-url: true
         use-root-path: true
 
-    data:
-      redis:
-        host: ${REDIS_HOST}
-        port: ${REDIS_PORT}
-        password: ${REDIS_PASSWORD}
+    
 
     swagger:
       uri: "/session-request-service"
