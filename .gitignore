@@ -47,3 +47,5 @@ sealed-secrets-key.yaml
 argo-rbac.yaml
 **/secret.yaml
 # **/sealed-secret.yaml
+/argocd-cm.yaml
+/argocd-values.yaml

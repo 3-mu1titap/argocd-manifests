@@ -15,7 +15,7 @@ data:
         name: category-service
       
       datasource:
-        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -36,7 +36,11 @@ data:
     
     swagger:
       uri: "/category-service"
-    
+
+    kafka:
+      cluster:
+        uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
+
 
     logging:
       level:
