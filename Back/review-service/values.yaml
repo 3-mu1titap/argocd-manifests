@@ -2,20 +2,20 @@ replicaCount: 1
 
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: member-1
+  tag: review-1
   pullPolicy: Always
 
 server:
-  port: 9500
+  port: 8080
 
 nameOverride: ""
-fullnameOverride: "member-service"
+fullnameOverride: "review-service"
 
 service:
-  name: member-service
+  name: review-service
   type: ClusterIP
   port: 80
-  targetPort: 9500
+  targetPort: 8080
 
 resources:
   requests:

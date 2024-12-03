@@ -49,3 +49,4 @@ argo-rbac.yaml
 # **/sealed-secret.yaml
 /argocd-cm.yaml
 /argocd-values.yaml
+/dg3-group.yaml
