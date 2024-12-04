@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "feedback-query-service.fullname" . }}
+  labels:
+    {{- include "feedback-query-service.labels" . | nindent 4 }}
+data:
+  application.yml: |
+    server:
+      port: {{ .Values.server.port }}
+      servlet:
+        context-path: /feedback-query-service
+        
+    spring:
+      application:
+        name: feedback-query-service
+      data:
+        mongodb:
+          uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_PRIMARY}:${MONGO_PORT_PRIMARY},${MONGO_HOST_SECONDARY_1}:${MONGO_PORT_SECONDARY_1},${MONGO_HOST_SECONDARY_2}:${MONGO_PORT_SECONDARY_2}/member-query-service?replicaSet=rs0&authSource=admin
+          database: member-query
+    kafka:
+      cluster:
+        uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
+
+      producer:
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+      consumer:
+        group-id: feedback-consumer-group # 소비자 그룹 ID
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+    springdoc:
+      api-docs:
+        path: /v3/api-docs
+      swagger-ui:
+        enabled: true
+        path: /swagger-ui.html
+        config-url: /v3/api-docs/swagger-config
+        urls:
+          - url: /v3/api-docs
+            name: API Docs
+        disable-swagger-default-url: true
+        use-root-path: true
+
+    swagger:
+      uri: "/feedback-query-service"
+
+
+
+    logging:
+      level:
+        root: INFO
+        com.multitap.auth: DEBUG
+        org.springframework.web: DEBUG
+        org.springframework.security: DEBUG
+        org.hibernate.SQL: DEBUG
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+        file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
