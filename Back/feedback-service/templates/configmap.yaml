@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "feedback-service.fullname" . }}
+  labels:
+    {{- include "feedback-service.labels" . | nindent 4 }}
+data:
+  application.yml: |
+    server:
+      port: {{ .Values.server.port }}
+      servlet:
+        context-path: /feedback-service
+    spring:
+      application:
+        name: feedback-service
+      
+      datasource:
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+      jpa:
+        hibernate:
+          ddl-auto: update
+          show-sql: true
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.MySQL8Dialect
+            format_sql: true
+            use_sql_comments: true
+            show_sql: true
+
+      querydsl:
+        target: com.querydsl.apt.jpa.JPAAnnotationProcessor
+    
+    swagger:
+      uri: "/feedback-service"
+
+    kafka:
+      cluster:
+        uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
+
+
+    logging:
+      level:
+        root: INFO
+        com.multitap.auth: DEBUG
+        org.springframework.web: DEBUG
+        org.springframework.security: DEBUG
+        org.hibernate.SQL: DEBUG
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      pattern:
+        console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+        file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+

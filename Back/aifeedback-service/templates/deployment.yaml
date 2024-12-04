@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aifeedback-service.fullname" . }}
+  labels:
+    {{- include "aifeedback-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "aifeedback-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "aifeedback-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config # 도커파일 workdir와 일치
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env: #환경 변수 (configmap)
+            - name: ELASTIC_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: ELASTIC_HOST
+            - name: ELASTIC_PORT1
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: ELASTIC_PORT1
+            - name: ELASTIC_PORT2
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: ELASTIC_PORT2
+            - name: ELASTIC_PORT3
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: ELASTIC_PORT3
+
+            - name: GPT_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: GPT_API_URL
+            - name: GPT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: GPT_API_KEY
+            - name: GPT_MODEL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: GPT_MODEL
+            
+            - name: OCR_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: OCR_API_URL
+            - name: OCR_API_KEY 
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: OCR_API_KEY
+            
+            - name: PROMPT_API_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "aifeedback-service.fullname" . }}
+                  key: PROMPT_API_URL 
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "aifeedback-service.fullname" . }}
+
+            # 3.35.228.51
