@@ -1,22 +1,17 @@
 replicaCount: 1
-
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: member-1
+  tag: member-3
   pullPolicy: Always
-
 server:
   port: 8000
-
 nameOverride: ""
 fullnameOverride: "member-service"
-
 service:
   name: member-service
   type: ClusterIP
   port: 80
   targetPort: 8000
-
 resources:
   requests:
     cpu: 250m
@@ -24,13 +19,8 @@ resources:
   limits:
     cpu: 500m
     memory: 1Gi
-
 database:
   host: ""
   port: ""
   username: ""
   password: ""
-
-
-
-
