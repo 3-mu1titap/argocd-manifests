@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: chatQ-7
+  tag: chatQ-8
   pullPolicy: Always
 server:
   port: 8080
