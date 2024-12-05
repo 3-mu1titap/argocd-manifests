@@ -54,3 +54,4 @@ kong-consumer.yaml
 kong-credential.yaml
 
 front-service
+**/monitoring
