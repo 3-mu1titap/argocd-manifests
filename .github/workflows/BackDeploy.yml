@@ -44,6 +44,10 @@ jobs:
              ["review-query-service"]="review-query-service"
              ["session-query-service"]="session-query-service"
              ["hastag-service"]="hashtag-service"
+             ["aifeedback-service"]="aifeedback-service"
+             ["feedback-service"]="feedback-service"
+             ["feedback-query-service"]="feedback-query-service"
+             ["prompt-service"]="prompt-service"
        
              
              #다른 백엔드 서비스 추가
@@ -93,6 +97,10 @@ jobs:
             ["session-query-service"]="Back/mongo/session-query-service"
             ["hashtag-service"]="Back/hashtag-service"
             ["review-service"]="Back/review-service"
+            ["aifeedback-service"]="Back/aifeedback-service"
+            ["feedback-service"]="Back/feedback-service"
+            ["feedback-query-service"]="Back/mongo/feedback-query-service"
+            ["prompt-service"]="Back/mongo/prompt-service"
             # # 다른 백엔드 서비스 경로 추가
           )
           
