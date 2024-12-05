@@ -1,0 +1,33 @@
+resources:
+  requests:
+    memory: "1Gi"
+    cpu: "200m"
+  limits:
+    memory: "2Gi"
+    cpu: "500m"
+
+persistence:
+  enabled: true
+  size: 50Gi
+
+service:
+  type: ClusterIP
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+
+config:
+  auth_enabled: false
+  ingester:
+    chunk_idle_period: 30m
+    chunk_block_size: 262144
+    chunk_retain_period: 1m
+    max_chunk_age: 1h
+  limits_config:
+    retention_period: 744h # 31일
+    ingestion_rate_mb: 4
+    ingestion_burst_size_mb: 6
+  table_manager:
+    retention_deletes_enabled: true
+    retention_period: 744h
