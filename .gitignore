@@ -50,3 +50,7 @@ argo-rbac.yaml
 /argocd-cm.yaml
 /argocd-values.yaml
 /dg3-group.yaml
+kong-consumer.yaml
+kong-credential.yaml
+
+front-service
