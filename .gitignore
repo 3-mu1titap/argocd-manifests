@@ -55,3 +55,4 @@ kong-credential.yaml
 
 front-service
 **/monitoring
+gp3-sc.yaml
