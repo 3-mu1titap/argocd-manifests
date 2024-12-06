@@ -6,30 +6,32 @@ metadata:
     {{- include "review-service.labels" . | nindent 4 }}
 data:
   application.yml: |
+    
+
     server:
       port: {{ .Values.server.port }}
       servlet:
         context-path: /review-service
+    spring:
+      application:
+        name: review-service
 
-    application:
-      name: review-service
+      datasource:
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
 
-    datasource:
-      url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      username: ${DB_USERNAME}
-      password: ${DB_PASSWORD}
-      driver-class-name: com.mysql.cj.jdbc.Driver
-
-    jpa:
-      hibernate:
-        ddl-auto: update
-        show-sql: true
-      properties:
+      jpa:
         hibernate:
-          dialect: org.hibernate.dialect.MySQL8Dialect
-          format_sql: true
-          use_sql_comments: true
-          show_sql: true
+          ddl-auto: update
+          show-sql: true
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.MySQL8Dialect
+            format_sql: true
+            use_sql_comments: true
+            show_sql: true
 
     springdoc:
       api-docs:
