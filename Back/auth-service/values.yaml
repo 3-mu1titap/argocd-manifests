@@ -3,7 +3,7 @@ server:
   port: 8080
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: auth-23
+  tag: auth-24
   pullPolicy: Always
 nameOverride: ""
 fullnameOverride: "auth-service"
