@@ -1,0 +1,40 @@
+replicaCount: 1
+
+image:
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
+  tag: batch-1
+  pullPolicy: Always
+
+server:
+  port: 8000
+
+nameOverride: ""
+fullnameOverride: "batch-service"
+
+service:
+  name: batch-service
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+database:
+  host: ""
+  port: ""
+  name: ""
+  username: ""
+  password: ""
+
+sElastic:
+  host: ""
+  port1: ""
+  port2: ""
+  port3: ""
+
