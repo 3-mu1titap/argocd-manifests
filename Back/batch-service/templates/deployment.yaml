@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "batch-service.fullname" . }}
+  labels:
+    {{- include "batch-service.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "batch-service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "batch-service.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config # 도커파일 workdir와 일치
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env: #환경 변수 (configmap)
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: DB_HOST
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: DB_NAME
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: DB_PORT
+            - name: DB_USERNAME # 데이터베이스 유저 이름
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: DB_USERNAME
+            - name: DB_PASSWORD # 데이터베이스 비밀번호
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: DB_PASSWORD
+            - name: ELASTIC_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: ELASTIC_HOST
+            - name: ELASTIC_PORT1
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: ELASTIC_PORT1
+            - name: ELASTIC_PORT2
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: ELASTIC_PORT2
+            - name: ELASTIC_PORT3
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "batch-service.fullname" . }}
+                  key: ELASTIC_PORT3
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "batch-service.fullname" . }}
+
+            # 3.35.228.51
