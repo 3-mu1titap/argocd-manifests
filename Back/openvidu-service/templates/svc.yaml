@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "openvidu-service.fullname" . }}
+  labels:
+    {{- include "openvidu-service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "openvidu-service.selectorLabels" . | nindent 4 }}
