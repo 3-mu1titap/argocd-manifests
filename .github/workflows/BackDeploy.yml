@@ -49,6 +49,7 @@ jobs:
              ["feedback-query-service"]="feedback-query-service"
              ["prompt-service"]="prompt-service"
              ["openvidu-service"]="openvidu-service"
+             ["batch-service"]="batch-service"
              
        
              
@@ -104,6 +105,7 @@ jobs:
             ["feedback-query-service"]="Back/mongo/feedback-query-service"
             ["prompt-service"]="Back/mongo/prompt-service"
             ["openvidu-service"]="Back/openvidu-service"
+            ["batch-service"]="Back/batch-service"
             
             # # 다른 백엔드 서비스 경로 추가
           )
