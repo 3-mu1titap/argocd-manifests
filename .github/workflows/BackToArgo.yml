@@ -43,7 +43,7 @@ jobs:
              ["review-service"]="review-service"
              ["review-query-service"]="review-query-service"
              ["session-query-service"]="session-query-service"
-             ["hastag-service"]="hashtag-service"
+             ["hashtag-service"]="hashtag-service"
              ["aifeedback-service"]="aifeedback-service"
              ["feedback-service"]="feedback-service"
              ["feedback-query-service"]="feedback-query-service"
