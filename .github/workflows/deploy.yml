@@ -61,8 +61,8 @@ jobs:
           # values.yaml 경로 매핑
           declare -A service_paths
           service_paths=(
-            ["front"]="front"        # 프론트엔드는 front 디렉토리
-            # # 다른 백엔드 서비스 경로 추가
+            ["front-server"]="front-server"        # 프론트엔드는 front 디렉토리
+          
           )
           
           # ArgoCD application 이름으로 경로 찾기
