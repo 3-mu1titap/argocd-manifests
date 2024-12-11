@@ -1,0 +1,31 @@
+replicaCount: 1
+
+image:
+  repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
+  tag: front-1
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: "front-server"
+
+service:
+  name: front-server
+  type: ClusterIP
+  ports:
+    - name: http-admin
+      port: 3000
+      targetPort: 3000
+    - name: http-web
+      port: 3003
+      targetPort: 3003
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "250m"
+  limits:
+    memory: "1Gi"
+    cpu: "500m"
+
+
+

@@ -1,17 +1,22 @@
 replicaCount: 1
+
 server:
   port: 8080
+
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: category-3
+  tag: category-1
   pullPolicy: Always
+
 nameOverride: ""
 fullnameOverride: "category-service"
+
 service:
   name: category-service
   type: ClusterIP
   port: 80
   targetPort: 8080
+
 # ingress:
 #   enabled: true
 #   className: kong
@@ -20,9 +25,11 @@ service:
 #     paths:
 #       - path: /api/v1/category  # 경로 수정
 #         pathType: prefix
+
 database:
   host: ""
   port: ""
   name: ""
   username: ""
   password: ""
+  
