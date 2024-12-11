@@ -32,7 +32,7 @@ jobs:
                     # ArgoCD application 이름 #14개
              ["auth-service"]="auth-service"             # 백엔드 서비스들
              ["payment-service"]="payment-service"
-             ["session-service"]="session-service"
+             ["session-request-service"]="session-request-service"
              ["mentoring-service"]="mentoring-service"
              ["category-service"]="category-service"
              ["mentoring-query-service"]="mentoring-query-service"
@@ -88,7 +88,7 @@ jobs:
                    # 14개
             ["auth-service"]="Back/auth-service"  # 백엔드는 backend/서비스명 디렉토리
             ["payment-service"]="Back/payment-service"
-            ["session-service"]="Back/session-service"
+            ["session-request-service"]="Back/session-request-service"
             ["mentoring-service"]="Back/mentoring-service"
             ["category-service"]="Back/category-service"
             ["member-service"]="Back/member-service"
