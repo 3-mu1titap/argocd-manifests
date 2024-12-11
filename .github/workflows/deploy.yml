@@ -88,6 +88,7 @@ jobs:
         run: |
           git config --global user.name "${{secrets.USER_NAME}}"
           git config --global user.email "${{secrets.USER_EMAIL}}"
+          git pull --rebase origin main  
           git add .
           git commit -m "Update ${{ needs.choose-service.outputs.service-name }} image tag to ${{ github.event.client_payload.tag }}"
           git push
