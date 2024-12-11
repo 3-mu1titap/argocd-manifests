@@ -1,0 +1,161 @@
+name: BackToArgo
+
+on:
+  repository_dispatch:
+    types: [ci-completed]
+
+permissions:
+  contents: write
+  actions: read
+  pull-requests: write
+  
+env:
+  ORG_NAME: mu1titap
+
+jobs:
+  choose-service:
+    runs-on: ubuntu-latest
+    outputs:
+      service-name: ${{ steps.check-source.outputs.service-name }}
+      service-type: ${{ steps.check-source.outputs.service-type }}
+    steps:
+      - name: Check source repository
+        id: check-source
+        run: |
+          # 전달받은 repository와 tag 정보 확인
+          echo "Received repository: ${{ github.event.client_payload.service_name }}"
+          echo "Received tag: ${{ github.event.client_payload.tag }}"
+          
+          # ArgoCD application 이름 매핑
+          declare -A app_names
+          app_names=(
+                    # ArgoCD application 이름 #14개
+             ["auth-service"]="auth-service"             # 백엔드 서비스들
+             ["payment-service"]="payment-service"
+             ["session-service"]="session-service"
+             ["mentoring-service"]="mentoring-service"
+             ["category-service"]="category-service"
+             ["mentoring-query-service"]="mentoring-query-service"
+             ["chat-service"]="chat-service"
+             ["chat-query-service"]="chat-query-service"
+             ["member-service"]="member-service"
+             ["member-query-service"]="member-query-service"
+             ["review-service"]="review-service"
+             ["review-query-service"]="review-query-service"
+             ["session-query-service"]="session-query-service"
+             ["hastag-service"]="hashtag-service"
+             ["aifeedback-service"]="aifeedback-service"
+             ["feedback-service"]="feedback-service"
+             ["feedback-query-service"]="feedback-query-service"
+             ["prompt-service"]="prompt-service"
+             ["openvidu-service"]="openvidu-service"
+             ["batch-service"]="batch-service"
+             
+       
+             
+             #다른 백엔드 서비스 추가
+          )
+          
+          REPO_NAME="${{ github.event.client_payload.service_name }}"
+          if [[ -n "${app_names[$REPO_NAME]}" ]]; then
+            echo "service-name=${app_names[$REPO_NAME]}" >> $GITHUB_OUTPUT
+            echo "service-type=${REPO_NAME}" >> $GITHUB_OUTPUT
+          else
+            echo "Error: Unknown repository: $REPO_NAME"
+            exit 1
+          fi
+
+  update-manifest:
+    needs: choose-service
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Manifest Repo
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ env.ORG_NAME }}/argocd-manifests
+          token: ${{ secrets.MY_GITHUB_TOKEN }}
+
+      - name: Install ArgoCD CLI
+        run: |
+          curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.5.3/argocd-linux-amd64
+          chmod +x /usr/local/bin/argocd
+
+      - name: Update values.yaml
+        run: |
+          # values.yaml 경로 매핑
+          declare -A service_paths
+          service_paths=(
+                   # 14개
+            ["auth-service"]="Back/auth-service"  # 백엔드는 backend/서비스명 디렉토리
+            ["payment-service"]="Back/payment-service"
+            ["session-service"]="Back/session-service"
+            ["mentoring-service"]="Back/mentoring-service"
+            ["category-service"]="Back/category-service"
+            ["member-service"]="Back/member-service"
+            ["member-query-service"]="Back/mongo/member-query-service"
+            ["chat-service"]="Back/mongo/chat-service"
+            ["chat-query-service"]="Back/mongo/chat-query-service"
+            ["mentoring-query-service"]="Back/mongo/mentoring-query-service"
+            ["review-query-service"]="Back/mongo/review-query-service"
+            ["session-query-service"]="Back/mongo/session-query-service"
+            ["hashtag-service"]="Back/hashtag-service"
+            ["review-service"]="Back/review-service"
+            ["aifeedback-service"]="Back/aifeedback-service"
+            ["feedback-service"]="Back/feedback-service"
+            ["feedback-query-service"]="Back/mongo/feedback-query-service"
+            ["prompt-service"]="Back/mongo/prompt-service"
+            ["openvidu-service"]="Back/openvidu-service"
+            ["batch-service"]="Back/batch-service"
+            
+            # # 다른 백엔드 서비스 경로 추가
+          )
+          
+          # ArgoCD application 이름으로 경로 찾기
+          APP_NAME="${{ needs.choose-service.outputs.service-name }}"
+          SERVICE_PATH="${service_paths[$APP_NAME]}/values.yaml"
+          
+          if [ ! -f "$SERVICE_PATH" ]; then
+            echo "Error: values.yaml not found at $SERVICE_PATH"
+            exit 1
+          fi
+          
+          echo "Updating values.yaml at $SERVICE_PATH"
+          echo "Current content:"
+          cat $SERVICE_PATH
+          
+          # 이미지 태그만 업데이트
+          yq eval ".image.tag = \"${{ github.event.client_payload.tag }}\"" -i $SERVICE_PATH
+          
+          echo "Updated content:"
+          cat $SERVICE_PATH
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "${{secrets.USER_NAME}}"
+          git config --global user.email "${{secrets.USER_EMAIL}}"
+          git add .
+          git commit -m "Update ${{ needs.choose-service.outputs.service-name }} image tag to ${{ github.event.client_payload.tag }}"
+          git push
+
+      - name: Sync Application in ArgoCD
+        env:
+          ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+          ARGOCD_USERNAME: ${{ secrets.ARGOCD_USERNAME }}
+          ARGOCD_PASSWORD: ${{ secrets.ARGOCD_PASSWORD }}
+        run: |
+          echo "Logging into ArgoCD..."
+          argocd login $ARGOCD_SERVER \
+            --username $ARGOCD_USERNAME \
+            --password $ARGOCD_PASSWORD \
+            --insecure \
+            --grpc-web
+          
+          echo "Checking ArgoCD connection..."
+          argocd account get-user-info
+          
+          echo "Syncing application..."
+          APP_NAME="${{ needs.choose-service.outputs.service-name }}"  # ArgoCD application 이름 사용
+          if ! argocd app sync $APP_NAME --timeout 180; then
+            echo "Failed to sync $APP_NAME"
+            exit 1
+          fi
