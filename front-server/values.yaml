@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: front-154
+  tag: front-155
   pullPolicy: Always
 nameOverride: ""
 fullnameOverride: "front-server"
