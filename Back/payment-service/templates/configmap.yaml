@@ -19,7 +19,14 @@ data:
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
-
+      mail:
+        host: ${MAIL_HOST}
+        port: ${MAIL_PORT}
+        username: ${MAIL_USERNAME}
+        password: ${MAIL_PASSWORD}
+        properties:
+          mail.smtp.auth: true
+          mail.smtp.starttls.enable: true
       jpa:
         hibernate:
           ddl-auto: update
@@ -30,6 +37,12 @@ data:
             format_sql: true
             use_sql_comments: true
             show_sql: true
+
+      data:
+        redis:
+          host: ${REDIS_HOST}
+          port: ${REDIS_PORT}
+          password: ${REDIS_PASSWORD}
 
     springdoc:
       api-docs:
@@ -46,6 +59,14 @@ data:
 
     swagger:
       uri: "/payment-service"
+
+    auth-service:
+      base-url:
+        ${BASE_URL}
+
+    member-service:
+      base-url:
+        ${BASE_URL} 
 
     kafka:
       bootstrap-servers: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
