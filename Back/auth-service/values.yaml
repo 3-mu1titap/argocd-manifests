@@ -1,24 +1,17 @@
 replicaCount: 1
-
 server:
-  port: 8080 
-
+  port: 8080
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: auth-1
+  tag: auth-34
   pullPolicy: Always
-
 nameOverride: ""
 fullnameOverride: "auth-service"
-
 service:
   name: auth-service
   type: ClusterIP
   port: 80
   targetPort: 8080
-
-
-
 resources:
   requests:
     cpu: 250m
@@ -26,34 +19,28 @@ resources:
   limits:
     cpu: 500m
     memory: 1Gi
-
 database:
   host: ""
   port: "3306"
   name: "auth-service"
   username: "" # 시크릿에 추가할 내용들
   password: "" # 시크릿에 추가할 내용들
-
 redis:
   host: ""
   port: ""
-
 jwt:
   secret: ""
   accessTokenValidity: 3600000
   refreshTokenValidity: 604800000
-
 mail:
   host: "smtp.gmail.com"
   port: "587"
   username: ""
   password: "" # 시크릿에 추가 할 내용들
-
 security:
   user:
     name: ""
     password: ""
-
 sElastic:
   host: ""
   port1: ""
