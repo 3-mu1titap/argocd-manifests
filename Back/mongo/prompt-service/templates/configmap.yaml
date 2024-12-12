@@ -17,7 +17,7 @@ data:
       data:
         mongodb:
           uri: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_PRIMARY}:${MONGO_PORT_PRIMARY},${MONGO_HOST_SECONDARY_1}:${MONGO_PORT_SECONDARY_1},${MONGO_HOST_SECONDARY_2}:${MONGO_PORT_SECONDARY_2}/member-query-service?replicaSet=rs0&authSource=admin
-          database: member-query
+
     kafka:
       cluster:
         uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}

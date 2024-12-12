@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: vidu-1
+  tag: vidu-5
   pullPolicy: Always
 
 server:

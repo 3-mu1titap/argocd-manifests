@@ -135,6 +135,18 @@ spec:
                   name: {{ include "auth-service.fullname" . }}
                   key: ELASTIC_PORT3
 
+            - name: SECURITY_USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: SECURITY_USER_NAME
+            
+            - name: SECURITY_USER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "auth-service.fullname" . }}
+                  key: SECURITY_USER_PASSWORD
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 

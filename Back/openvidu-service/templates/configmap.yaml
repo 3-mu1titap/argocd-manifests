@@ -14,6 +14,23 @@ data:
     spring:
       application:
         name: openvidu-service
+      datasource:
+        url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+      jpa:
+        hibernate:
+          ddl-auto: update
+          show-sql: true
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.MySQL8Dialect
+            format_sql: true
+            use_sql_comments: true
+            show_sql: true
+
     
     OPENVIDU_URL: ${OPENVIDU_URL}
     OPENVIDU_SECRET: ${OPENVIDU_SECRET}
