@@ -42,7 +42,7 @@ jobs:
              ["member-query-service"]="member-query-service"
              ["review-service"]="review-service"
              ["review-query-service"]="review-query-service"
-             ["session-request-query-service"]="session-request-query-service"
+             ["session-query-service"]="session-query-service"
              ["hashtag-service"]="hashtag-service"
              ["aifeedback-service"]="aifeedback-service"
              ["feedback-service"]="feedback-service"
