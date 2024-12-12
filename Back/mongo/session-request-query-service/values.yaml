@@ -6,9 +6,9 @@ image:
 server:
   port: 8080
 nameOverride: ""
-fullnameOverride: "session-query-service"
+fullnameOverride: "session-request-query-service"
 service:
-  name: session-query-service
+  name: session-request-query-service
   type: ClusterIP
   port: 80
   targetPort: 8080

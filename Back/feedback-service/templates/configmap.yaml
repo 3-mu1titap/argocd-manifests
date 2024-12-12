@@ -9,10 +9,10 @@ data:
     server:
       port: {{ .Values.server.port }}
       servlet:
-        context-path: /feedback-service
+        context-path: /feedback-score-service
     spring:
       application:
-        name: feedback-service
+        name: feedback-score-service
       
       datasource:
         url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
@@ -35,7 +35,7 @@ data:
         target: com.querydsl.apt.jpa.JPAAnnotationProcessor
     
     swagger:
-      uri: "/feedback-service"
+      uri: "/feedback-score-service"
 
     kafka:
       cluster:
