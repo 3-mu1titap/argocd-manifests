@@ -51,8 +51,6 @@ data:
         disable-swagger-default-url: true
         use-root-path: true
 
-    
-
     swagger:
       uri: "/session-request-service"
 
@@ -61,7 +59,7 @@ data:
         uri: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
 
     mentoring-service:
-      base-url: http://api.adaptors.site    
+      base-url: http://api.adaptors.site/mentoring-service    
       
     logging:
       level:
