@@ -1,7 +1,7 @@
 replicaCount: 1
 image:
   repository: 025066243053.dkr.ecr.ap-northeast-2.amazonaws.com/dg/multi-tap
-  tag: alarm-22
+  tag: alarm-23
   pullPolicy: Always
 server:
   port: 8080
