@@ -60,13 +60,6 @@ data:
     swagger:
       uri: "/payment-service"
 
-    auth-service:
-      base-url:
-        ${BASE_URL}
-
-    member-service:
-      base-url:
-        ${BASE_URL} 
 
     kafka:
       bootstrap-servers: ${ELASTIC_HOST}:${ELASTIC_PORT1},${ELASTIC_HOST}:${ELASTIC_PORT2},${ELASTIC_HOST}:${ELASTIC_PORT3}
