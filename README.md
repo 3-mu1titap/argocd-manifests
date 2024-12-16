@@ -91,8 +91,9 @@ Development as Code를 통한 개발 환경 표준화
 ### 🔧 **서버 구성 및 데이터베이스**
 
 - 아키텍처 구조도
-
-
+<p align="center">
+  <img alt="Kubernetes" src="docs/images/kubernetes-ar.png" width="500" height="500">
+</p>
 <br/>
 
 ### **📋** Directory 구조도
