@@ -62,3 +62,5 @@ cen-ingress2.yaml
 # /front
 
 anything.yml
+kong-alb.yaml
+kong-proxy4.yaml
