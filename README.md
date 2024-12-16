@@ -1,4 +1,4 @@
-# 삼삼오오 🥇
+# Helm Repo 🥇
 
 <p align="center">
   <img alt="Kubernetes" src="https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg" width="250" height="250">
