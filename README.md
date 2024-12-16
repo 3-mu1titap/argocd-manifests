@@ -2,7 +2,7 @@
 
 <p align="center">
   <img alt="Kubernetes" src="https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg" width="250" height="250">
-  <img alt="ArgoCD" src="https://cncf-branding.netlify.app/img/projects/argo/icon/color/argo-icon-color.svg" width="250" height="250">
+  <img alt="ArgoCD" src="https://cncf-branding.netlify.app/img/projects/argo/horizontal/color/argo-horizontal-color.svg" width="250" height="250">
 </p>
 
 ### 🛒 프로젝트 개요
@@ -94,7 +94,7 @@ Development as Code를 통한 개발 환경 표준화
 | 분류 | 기술 스택 |
 | --- | --- |
 | Common | GitHub, Notion, GitOps |
-| Infrastructure | AWS (EKS, ECR, ALB), Kubernetes, Helm, Kong|                        |
+| Infrastructure | AWS (EKS, ECR, ALB), Kubernetes, Helm, Kong|
 | CI/CD | GitHub Actions, ArgoCD, Docker(27.2.0), Docker-compose(v2.5.0)|
 | Database | MySQL(24.04.2), PostgreSQL, MongoDB, Redis(7.2.5) |
 | Message Queue | Apache Kafka, Kafka Connect |
@@ -388,13 +388,9 @@ Task를 활용한 인프라 문서화 자동화
 
 ## 개발 후기
 
-| 🍀 오대관 <br> 이번 프로젝트에서 처음으로 쿠버네티스를 활용한 배포 환경 구축에 도전했습니다. 처음에는 성공할 수 있을지에 대한 두려움과 팀에 부담을 줄 수 있다는 걱정이 컸습니다. 하지만 '도전 없이는 발전도 없다'는 마음가짐으로 시작했고, 팀원들의 든든한 응원 덕분에 성공적으로 마무리할 수 있었습니다.
-이를 위해 평소 즐기던 취미 생활도 잠시 미뤄두고 쿠버네티스 학습에 전념했습니다. 이 과정을 통해 노력하면 어떤 것이든 이룰 수 있다는 자신감을 얻었고, 인프라에 대한 더 큰 매력을 느끼게 되었습니다. 이번 경험을 발판으로 DevOps 전문성을 갖춘 개발자로 성장해 나가고자 합니다. |
+| 🍀 오대관 <br> 이번 프로젝트에서 처음으로 쿠버네티스를 활용한 배포 환경 구축에 도전했습니다. 처음에는 성공할 수 있을지에 대한 두려움과 팀에 부담을 줄 수 있다는 걱정이 컸습니다. 하지만 '도전 없이는 발전도 없다'는 마음가짐으로 시작했고, 팀원들의 든든한 응원 덕분에 성공적으로 마무리할 수 있었습니다. 이를 위해 평소 즐기던 취미 생활도 잠시 미뤄두고 쿠버네티스 학습에 전념했습니다. 이 과정을 통해 노력하면 어떤 것이든 이룰 수 있다는 자신감을 얻었고, 인프라에 대한 더 큰 매력을 느끼게 되었습니다. 이번 경험을 발판으로 DevOps 전문성을 갖춘 개발자로 성장해 나가고자 합니다. |
 |:---------------------------|
 
-
-
-:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 
 <br/>
 
