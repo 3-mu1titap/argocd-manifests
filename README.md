@@ -2,7 +2,7 @@
 
 <p align="center">
   <img alt="Kubernetes" src="https://raw.githubusercontent.com/cncf/artwork/master/projects/kubernetes/icon/color/kubernetes-icon-color.svg" width="250" height="250">
-  <img alt="ArgoCD" src="https://blog.kakaocdn.net/dn/bTUH18/btsJonQMynR/aWwdk5NnhAJ2y7IcLJH5H0/img.png" width="250" height="250">
+  <img alt="ArgoCD" src="https://blog.kakaocdn.net/dn/bTUH18/btsJonQMynR/aWwdk5NnhAJ2y7IcLJH5H0/img.png" width="250" height="150">
 </p>
 
 ### 🛒 프로젝트 개요
@@ -18,8 +18,11 @@
 
 ### 💻 기획 배경
 
-    취업 관련 멘토링 플랫폼 프로젝트의 기획 배경은 실무에서 널리 활용되고 있는 MSA(Microservice Architecture) 아키텍처를 실제로 경험해보고자 시작되었습니다. 현재 Netflix, Amazon, Google과 같은 글로벌 기업부터 국내의 여러 기업들까지 MSA를 도입하여 서비스를 운영하고 있습니다. 이러한 업계 동향을 고려할 때, MSA 아키텍처를 직접 설계하고 구현해보는 경험이 실무 역량 향상에 큰 도움이 될 것이라 판단했습니다.
-    특히 본 프로젝트에서는 단순히 MSA 구조를 적용하는 것에서 그치지 않고, 현대적인 컨테이너 오케스트레이션 플랫폼인 쿠버네티스를 활용하여 배포 환경을 구축하고자 했습니다. 쿠버네티스를 통해 마이크로서비스들의 효율적인 배포, 확장성 있는 운영, 안정적인 서비스 제공을 실현하고자 했으며, 이는 현업에서 실제로 마주하게 될 기술적 문제들을 해결해보는 좋은 기회가 되었습니다.
+취업 관련 멘토링 플랫폼 프로젝트의 기획 배경은 실무에서 널리 활용되고 있는 MSA(Microservice Architecture) 아키텍처를 실제로 경험해보고자 시작되었습니다.
+현재 Netflix, Amazon, Google과 같은 글로벌 기업부터 국내의 여러 기업들까지 MSA를 도입하여 서비스를 운영하고 있습니다.
+이러한 업계 동향을 고려할 때, MSA 아키텍처를 직접 설계하고 구현해보는 경험이 실무 역량 향상에 큰 도움이 될 것이라 판단했습니다.
+특히 본 프로젝트에서는 단순히 MSA 구조를 적용하는 것에서 그치지 않고, 현대적인 컨테이너 오케스트레이션 플랫폼인 쿠버네티스를 활용하여 배포 환경을 구축하고자 했습니다.
+쿠버네티스를 통해 마이크로서비스들의 효율적인 배포, 확장성 있는 운영, 안정적인 서비스 제공을 실현하고자 했으며, 이는 현업에서 실제로 마주하게 될 기술적 문제들을 해결해보는 좋은 기회가 되었습니다.
 <br/>
 <br/>
 ### 🥅 프로젝트 목표
