@@ -96,6 +96,11 @@ Development as Code를 통한 개발 환경 표준화
 </p>
 <br/>
 
+### 파이프라인
+
+![image](https://github.com/user-attachments/assets/6f7aa211-1246-416e-807f-05851383d61a)
+
+
 ### **📋** Directory 구조도
 
 - **Helm Chart**
