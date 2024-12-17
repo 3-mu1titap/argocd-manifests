@@ -91,9 +91,9 @@ Development as Code를 통한 개발 환경 표준화
 ### 🔧 **서버 구성 및 데이터베이스**
 
 - 아키텍처 구조도
-<p align="center">
-  <img alt="Kubernetes" src="docs/images/kubernetes-ar.png" width="500" height="500">
-</p>
+  
+![image](https://github.com/user-attachments/assets/7fc337ee-53c3-49a3-ad36-3e88603e920b)
+
 <br/>
 
 ### 파이프라인
@@ -103,6 +103,11 @@ Development as Code를 통한 개발 환경 표준화
 
 ### **📋** Directory 구조도
 
+<details>
+  <summary>
+    자세히(DevOps)
+  </summary>
+  
 - **Helm Chart**
 
 ```bash
@@ -352,6 +357,7 @@ Development as Code를 통한 개발 환경 표준화
 │   │   └── svc.yaml
 │   └── values.yaml
 ```
+</details>
 
 ## 4. 기능 소개 
 
