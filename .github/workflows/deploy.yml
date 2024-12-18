@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
   
 env:
-  ORG_NAME: mu1titap
+  ORG_NAME: 3-mu1titap
 
 jobs:
   choose-service:
